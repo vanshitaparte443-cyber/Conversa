@@ -67,8 +67,9 @@ export const DebriefPage: React.FC = () => {
               <Award className="w-4 h-4 text-neon-magenta" />
               Immersion Session Debrief
             </div>
-            <h1 className="text-3xl font-bold font-mono tracking-tight text-white m-0">
-              COACH <span className="text-neon-magenta">REPORT</span>
+            <h1 className="text-3xl font-bold font-mono tracking-tight text-white m-0 flex items-center gap-3">
+              <img src="/logo.png" className="w-8 h-8 object-contain" alt="Conversa Logo" />
+              Coach <span className="text-neon-magenta">Report</span>
             </h1>
             <p className="font-sans text-xs text-white/50 mt-1">
               Analyzing conversational flows, local idioms, and grammar patterns.

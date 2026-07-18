@@ -35,8 +35,9 @@ export const HistoryPage: React.FC = () => {
               <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan animate-pulse" />
               Conversation Archives
             </div>
-            <h1 className="text-3xl font-bold font-mono tracking-tight text-white m-0">
-              SESSION <span className="text-neon-cyan">HISTORY</span>
+            <h1 className="text-3xl font-bold font-mono tracking-tight text-white m-0 flex items-center gap-3">
+              <img src="/logo.png" className="w-8 h-8 object-contain" alt="Conversa Logo" />
+              Session <span className="text-neon-cyan">History</span>
             </h1>
             <p className="font-sans text-xs text-white/50 mt-1">
               Browse your past immersion attempts, fluency logs, and critique metrics.

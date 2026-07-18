@@ -59,8 +59,9 @@ export const ScenarioSelectPage: React.FC = () => {
               <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse" />
               <span className="font-mono text-xs uppercase tracking-widest text-neon-cyan glow-cyan">System: Online</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold font-mono tracking-tight text-white m-0">
-              CONVERSA <span className="text-neon-cyan">IMMERSION</span>
+            <h1 className="text-3xl md:text-4xl font-bold font-mono tracking-tight text-white m-0 flex items-center gap-3">
+              <img src="/logo.png" className="w-9 h-9 object-contain" alt="Conversa Logo" />
+              Conversa <span className="text-neon-cyan">IMMERSION</span>
             </h1>
             <p className="font-sans text-sm text-white/50 mt-1 max-w-lg">
               Live roleplay conversations with in-character AI personas. Real-time scenarios, zero distraction, deep coach feedback.

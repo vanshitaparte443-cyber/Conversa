@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Phone, ArrowRight, CheckCircle2, ShieldAlert, Cpu } from 'lucide-react';
+import { Shield, Phone, ArrowRight, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { PageTransition } from '../components/layout/PageTransition';
 
 export const LoginPage: React.FC = () => {
@@ -108,11 +108,11 @@ export const LoginPage: React.FC = () => {
 
           {/* Header */}
           <header className="flex flex-col items-center text-center gap-2 mb-8">
-            <div className="w-12 h-12 rounded-lg bg-neon-cyan/10 border border-neon-cyan/25 flex items-center justify-center mb-2 animate-pulse">
-              <Cpu className="w-6 h-6 text-neon-cyan" />
+            <div className="w-16 h-16 mb-2 flex items-center justify-center">
+              <img src="/logo.png" className="w-14 h-14 object-contain" alt="Conversa Logo" />
             </div>
             <h1 className="font-mono text-2xl font-bold tracking-widest text-white">
-              CONVERSA <span className="text-neon-cyan">// AUTH</span>
+              Conversa <span className="text-neon-cyan">// AUTH</span>
             </h1>
             <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest">
               Establish secure communication node
