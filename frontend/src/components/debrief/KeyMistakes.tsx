@@ -9,9 +9,9 @@ interface KeyMistakesProps {
 export const KeyMistakes: React.FC<KeyMistakesProps> = ({ mistakes }) => {
   if (mistakes.length === 0) {
     return (
-      <div className="bg-cyber-panel border border-neon-green/20 rounded-lg p-5 text-center">
-        <h3 className="font-mono text-sm uppercase text-neon-green tracking-wider mb-1">Zero Errors Detected!</h3>
-        <p className="font-sans text-xs text-white/60">Amazing! Your grammar and syntax matching were completely clean.</p>
+      <div className="bg-zinc-900/30 border border-white/5 rounded-2xl p-6 text-center">
+        <h3 className="text-sm uppercase text-emerald-400 tracking-wider font-bold mb-1">No Mistakes Detected</h3>
+        <p className="text-xs text-zinc-400">Excellent! Your grammar, spelling, and phrasing were completely clean.</p>
       </div>
     );
   }
@@ -19,38 +19,38 @@ export const KeyMistakes: React.FC<KeyMistakesProps> = ({ mistakes }) => {
   return (
     <div className="flex flex-col gap-4">
       {mistakes.map((mistake) => (
-        <div key={mistake.id} className="bg-cyber-panel border border-neon-magenta/20 hover:border-neon-magenta/40 rounded-lg p-4 transition-all duration-200">
+        <div key={mistake.id} className="bg-zinc-900/30 border border-white/5 hover:border-white/10 rounded-2xl p-5 md:p-6 transition-all duration-300 shadow-sm flex flex-col gap-4">
           
           {/* Header */}
-          <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
-            <AlertCircle className="w-4 h-4 text-neon-magenta" />
-            <span className="font-mono text-xs uppercase tracking-wider text-neon-magenta font-semibold">Grammar / Spelling Correction</span>
+          <div className="flex items-center gap-2 border-b border-white/5 pb-2.5">
+            <AlertCircle className="w-4 h-4 text-rose-400" />
+            <span className="text-xs uppercase tracking-wider text-rose-400 font-bold">Grammar & Syntax Correction</span>
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             
             {/* Original Text */}
-            <div className="bg-black/20 rounded p-3 border border-white/5">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-white/40 block mb-1">What you said</span>
-              <p className="font-sans text-sm text-red-400 font-medium">{mistake.originalText}</p>
+            <div className="bg-zinc-950/40 rounded-xl p-4 border border-white/5 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500 block mb-1.5">What you said</span>
+              <p className="text-sm text-rose-400 font-semibold">{mistake.originalText}</p>
               {mistake.pronunciation && (
-                <p className="font-mono text-[10px] text-white/30 mt-1 italic">"{mistake.pronunciation}"</p>
+                <p className="text-[11px] text-zinc-500 mt-1 italic">"{mistake.pronunciation}"</p>
               )}
             </div>
 
             {/* Corrected Text */}
-            <div className="bg-neon-green/5 rounded p-3 border border-neon-green/20 relative">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-neon-green/60 block mb-1">Recommended correction</span>
-              <p className="font-sans text-sm text-neon-green font-medium">{mistake.correctedText}</p>
+            <div className="bg-emerald-500/[0.03] rounded-xl p-4 border border-emerald-500/20 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-emerald-400 block mb-1.5">Recommended correction</span>
+              <p className="text-sm text-emerald-400 font-semibold">{mistake.correctedText}</p>
             </div>
 
           </div>
 
           {/* Explanation */}
-          <div className="mt-3 bg-white/5 rounded p-2.5 border border-white/5">
-            <p className="font-sans text-xs text-white/70 leading-relaxed">
-              <strong className="font-mono text-[10px] text-white/40 uppercase block mb-0.5">Grammar Rule / Critique</strong>
+          <div className="bg-white/[0.02] rounded-xl p-4 border border-white/5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-1">Critique & Rule</span>
+            <p className="text-xs text-zinc-300 leading-relaxed font-medium">
               {mistake.explanation}
             </p>
           </div>

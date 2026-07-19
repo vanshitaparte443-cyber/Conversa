@@ -5,6 +5,7 @@ import { mockScenarios } from '../data/mockScenarios';
 import type { Scenario, TargetLanguage } from '../types/scenario';
 import { PageTransition } from '../components/layout/PageTransition';
 import { History, Globe, Shield, Activity, Play } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const ScenarioSelectPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,20 +32,44 @@ export const ScenarioSelectPage: React.FC = () => {
 
   const getDifficultyColor = (diff: string) => {
     switch (diff) {
-      case 'Easy': return 'text-neon-green border-neon-green/30 bg-neon-green/10';
-      case 'Medium': return 'text-neon-amber border-neon-amber/30 bg-neon-amber/10';
-      case 'Hard': return 'text-neon-magenta border-neon-magenta/30 bg-neon-magenta/10';
-      default: return 'text-white/50 border-white/10';
+      case 'Easy': return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10';
+      case 'Medium': return 'text-amber-400 border-amber-500/20 bg-amber-500/10';
+      case 'Hard': return 'text-rose-400 border-rose-500/20 bg-rose-500/10';
+      default: return 'text-zinc-400 border-white/5 bg-white/5';
     }
   };
 
   const getAvatarColor = (seed: string) => {
     switch (seed) {
-      case 'karan': return 'from-amber-500 to-red-600 border-amber-400';
-      case 'ramesh': return 'from-purple-500 to-indigo-600 border-purple-400';
-      case 'shruti': return 'from-cyan-500 to-blue-600 border-cyan-400';
-      case 'babubhai': return 'from-emerald-500 to-teal-600 border-emerald-400';
-      default: return 'from-gray-500 to-slate-600 border-gray-400';
+      case 'karan': return 'from-amber-400/20 to-red-500/20 text-amber-300 border-amber-500/20';
+      case 'ramesh': return 'from-purple-400/20 to-indigo-500/20 text-purple-300 border-purple-500/20';
+      case 'shruti': return 'from-cyan-400/20 to-blue-500/20 text-cyan-300 border-cyan-500/20';
+      case 'babubhai': return 'from-emerald-400/20 to-teal-500/20 text-emerald-300 border-emerald-500/20';
+      default: return 'from-zinc-500/20 to-slate-600/20 text-zinc-300 border-zinc-500/20';
+    }
+  };
+
+  // Stagger children layout variants for Framer Motion
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        type: 'spring' as const, 
+        stiffness: 110,
+        damping: 15
+      } 
     }
   };
 
@@ -52,28 +77,28 @@ export const ScenarioSelectPage: React.FC = () => {
     <PageTransition>
       <div className="w-full max-w-6xl mx-auto px-4 py-8 flex flex-col gap-8 flex-grow">
         
-        {/* Terminal Header */}
-        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/10 pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="h-2 w-2 rounded-full bg-neon-cyan animate-pulse" />
-              <span className="font-mono text-xs uppercase tracking-widest text-neon-cyan glow-cyan">System: Online</span>
+        {/* Sleek Minimalist Header */}
+        <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-white/10 pb-6">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse-ring" />
+              <span className="text-[10px] uppercase tracking-wider text-emerald-400 font-semibold">Conversa Node Live</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold font-mono tracking-tight text-white m-0 flex items-center gap-3">
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white m-0 flex items-center gap-3">
               <img src="/logo.png" className="w-9 h-9 object-contain" alt="Conversa Logo" />
-              Conversa <span className="text-neon-cyan">IMMERSION</span>
+              Conversa <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent font-normal">Immersion</span>
             </h1>
-            <p className="font-sans text-sm text-white/50 mt-1 max-w-lg">
+            <p className="text-sm text-zinc-400 mt-1 max-w-lg leading-relaxed">
               Live roleplay conversations with in-character AI personas. Real-time scenarios, zero distraction, deep coach feedback.
             </p>
           </div>
           
           <button
             onClick={() => navigate('/history')}
-            className="font-mono text-xs uppercase tracking-wider px-4 py-2.5 rounded border border-white/10 hover:border-neon-cyan/50 hover:bg-neon-cyan/5 text-white/70 hover:text-neon-cyan transition-all duration-200 flex items-center gap-2 self-stretch md:self-auto justify-center cyber-button-clip"
+            className="text-xs font-semibold uppercase tracking-wider px-5 py-3 rounded-xl border border-white/10 hover:border-indigo-500/30 hover:bg-indigo-500/5 text-zinc-300 hover:text-indigo-400 transition-all duration-300 flex items-center gap-2 self-stretch md:self-auto justify-center cursor-pointer shadow-md active:scale-95"
           >
             <History className="w-4 h-4" />
-            Session Logs
+            Session History
           </button>
         </header>
 
@@ -82,71 +107,75 @@ export const ScenarioSelectPage: React.FC = () => {
           
           {/* Scenarios Grid (Left 2 columns) */}
           <div className="lg:col-span-2 flex flex-col gap-4">
-            <h2 className="font-mono text-sm uppercase tracking-wider text-white/40 mb-1 flex items-center gap-2">
-              <Activity className="w-4 h-4 text-neon-cyan" />
-              Select Immersion Arena
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1 flex items-center gap-2">
+              <Activity className="w-4 h-4 text-indigo-400" />
+              Available Scenarios
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               {mockScenarios.map((scenario) => (
-                <div
+                <motion.div
                   key={scenario.id}
+                  variants={cardVariants}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
                   onClick={() => handleCardClick(scenario)}
-                  className={`cursor-pointer rounded-lg border p-5 transition-all duration-300 flex flex-col gap-4 group relative ${
+                  className={`cursor-pointer rounded-2xl border p-5 transition-all duration-300 flex flex-col gap-4 group relative ${
                     selectedScenario?.id === scenario.id
-                      ? 'bg-neon-cyan/5 border-neon-cyan/50 shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                      : 'bg-cyber-panel/60 border-white/5 hover:border-white/15 hover:bg-cyber-panel/80'
+                      ? 'bg-indigo-500/[0.04] border-indigo-500/60 shadow-[0_8px_30px_rgba(99,102,241,0.1)] ring-1 ring-indigo-500/30'
+                      : 'bg-zinc-900/40 border-white/5 hover:border-white/10 hover:bg-zinc-900/60'
                   }`}
                 >
-                  {/* Status Indicator */}
+                  {/* Status Indicator bubble */}
                   {selectedScenario?.id === scenario.id && (
-                    <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-neon-cyan rounded-bl-lg rounded-tr-md shadow-[0_0_5px_rgba(0,240,255,0.8)]" />
+                    <div className="absolute top-3 right-3 w-2.5 h-2.5 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
                   )}
 
                   {/* Header info */}
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded bg-gradient-to-tr ${getAvatarColor(scenario.persona.avatarSeed)} flex items-center justify-center font-mono font-bold text-white border border-white/10 shrink-0`}>
+                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-tr ${getAvatarColor(scenario.persona.avatarSeed)} flex items-center justify-center font-bold border border-white/5 shrink-0 text-base shadow-sm`}>
                         {scenario.persona.name.charAt(0)}
                       </div>
                       <div>
-                        <h3 className="font-sans text-base font-bold text-white group-hover:text-neon-cyan transition-colors leading-tight">
+                        <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors leading-snug">
                           {scenario.name}
                         </h3>
-                        <span className="font-mono text-[10px] text-white/40">{scenario.persona.name} ({scenario.persona.role})</span>
+                        <span className="text-[11px] text-zinc-500 font-medium">{scenario.persona.name} • {scenario.persona.role}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="font-sans text-xs text-white/60 leading-relaxed min-h-8">
+                  <p className="text-xs text-zinc-400 leading-relaxed min-h-8">
                     {scenario.description}
                   </p>
 
                   {/* Meta Tags Footer */}
-                  <div className="flex items-center justify-between border-t border-white/5 pt-3 mt-auto font-mono text-[10px]">
+                  <div className="flex items-center justify-between border-t border-white/5 pt-3.5 mt-auto text-[11px] text-zinc-500 font-medium">
                     <div className="flex items-center gap-1.5">
-                      <Globe className="w-3 h-3 text-white/30" />
-                      <span className="text-white/50">{scenario.targetLanguage.join(' / ')}</span>
+                      <Globe className="w-3.5 h-3.5 text-zinc-600" />
+                      <span>{scenario.targetLanguage.join(' / ')}</span>
                     </div>
 
-                    <div className={`px-2 py-0.5 rounded border ${getDifficultyColor(scenario.difficulty)}`}>
+                    <div className={`px-2.5 py-0.5 rounded-full border text-[10px] font-semibold ${getDifficultyColor(scenario.difficulty)}`}>
                       {scenario.difficulty}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           {/* Config & Enter Panel (Right Column) */}
-          <div className="lg:col-span-1 bg-cyber-panel border border-white/5 rounded-lg p-6 flex flex-col gap-6 relative overflow-hidden">
+          <div className="lg:col-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
             
-            {/* Hologram lines background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent pointer-events-none" />
-
-            <h2 className="font-mono text-sm uppercase tracking-wider text-white/40 border-b border-white/5 pb-3 m-0">
-              Immersion Parameters
+            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 border-b border-white/5 pb-3.5 m-0">
+              Session Configuration
             </h2>
 
             {selectedScenario ? (
@@ -154,10 +183,10 @@ export const ScenarioSelectPage: React.FC = () => {
                 
                 {/* Selected Scenario Preview */}
                 <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[10px] uppercase text-neon-cyan">Target Persona</span>
-                  <div className="bg-black/35 rounded-lg border border-white/5 p-4 flex flex-col gap-2">
-                    <span className="font-sans text-sm font-bold text-white">{selectedScenario.persona.name}</span>
-                    <p className="font-sans text-xs text-white/50 leading-relaxed italic">
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500">Selected Persona</span>
+                  <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-4 flex flex-col gap-1.5 shadow-inner">
+                    <span className="text-sm font-bold text-white">{selectedScenario.persona.name}</span>
+                    <p className="text-xs text-zinc-400 leading-relaxed italic">
                       "{selectedScenario.persona.bio}"
                     </p>
                   </div>
@@ -165,8 +194,8 @@ export const ScenarioSelectPage: React.FC = () => {
 
                 {/* Target Language Select */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="font-mono text-[10px] uppercase text-neon-cyan flex items-center gap-1">
-                    <Globe className="w-3.5 h-3.5" />
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5 text-indigo-400" />
                     Target Language
                   </span>
                   <div className="flex gap-2">
@@ -174,10 +203,10 @@ export const ScenarioSelectPage: React.FC = () => {
                       <button
                         key={lang}
                         onClick={() => setActiveLanguage(lang as TargetLanguage)}
-                        className={`flex-1 font-mono text-xs uppercase tracking-wider py-2 rounded border transition-all duration-200 ${
+                        className={`flex-1 font-semibold text-xs py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
                           activeLanguage === lang
-                            ? 'bg-neon-cyan/20 border-neon-cyan text-neon-cyan font-semibold shadow-[0_0_10px_rgba(0,240,255,0.15)]'
-                            : 'bg-black/20 border-white/5 text-white/40 hover:text-white/70 hover:border-white/10'
+                            ? 'bg-indigo-500 border-indigo-400 text-white shadow-lg shadow-indigo-500/10'
+                            : 'bg-zinc-900/50 border-white/5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
                         }`}
                       >
                         {lang}
@@ -188,24 +217,24 @@ export const ScenarioSelectPage: React.FC = () => {
 
                 {/* Target Proficiency */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="font-mono text-[10px] uppercase text-neon-cyan flex items-center gap-1">
-                    <Shield className="w-3.5 h-3.5" />
-                    Your Target Level
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-indigo-400" />
+                    Your Skill Level
                   </span>
                   <div className="flex flex-col gap-2">
                     {['Beginner', 'Intermediate', 'Advanced'].map((level) => (
                       <button
                         key={level}
                         onClick={() => setActiveProficiency(level)}
-                        className={`font-mono text-xs text-left px-4 py-2.5 rounded border transition-all duration-200 flex items-center justify-between ${
+                        className={`text-xs font-semibold text-left px-4 py-3 rounded-xl border transition-all duration-300 flex items-center justify-between cursor-pointer ${
                           activeProficiency === level
-                            ? 'bg-white/5 border-neon-cyan text-white font-semibold'
-                            : 'bg-black/25 border-white/5 text-white/40 hover:text-white/75'
+                            ? 'bg-white/[0.04] border-indigo-500/70 text-white shadow-sm ring-1 ring-indigo-500/20'
+                            : 'bg-zinc-900/50 border-white/5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
                         }`}
                       >
                         {level}
                         {activeProficiency === level && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan shadow-[0_0_4px_rgba(0,240,255,0.8)] animate-pulse" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)] animate-pulse" />
                         )}
                       </button>
                     ))}
@@ -215,21 +244,23 @@ export const ScenarioSelectPage: React.FC = () => {
                 {/* Launch Button */}
                 <button
                   onClick={handleLaunch}
-                  className="w-full bg-gradient-to-r from-neon-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 border border-cyan-300 text-black font-mono font-bold text-xs uppercase tracking-widest py-3.5 rounded flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(0,240,255,0.2)] hover:shadow-[0_0_25px_rgba(0,240,255,0.45)] transition-all duration-300 cyber-button-clip"
+                  className="w-full bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white font-semibold text-xs uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all"
                 >
-                  <Play className="w-4 h-4 fill-black" />
-                  Initialize Immersion
+                  <Play className="w-4 h-4 fill-white" />
+                  Launch Session
                 </button>
 
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-white/5 rounded-lg bg-black/15">
-                <Globe className="w-10 h-10 text-white/10 mb-3 animate-pulse" />
-                <p className="font-mono text-xs text-white/30 uppercase tracking-wider">
-                  Awaiting Arena Selection
+              <div className="flex flex-col items-center justify-center py-16 text-center border border-dashed border-white/10 rounded-2xl bg-zinc-950/20">
+                <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center border border-white/5 mb-4 shadow-sm">
+                  <Globe className="w-5 h-5 text-zinc-500" />
+                </div>
+                <p className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                  Select a Scenario
                 </p>
-                <p className="font-sans text-[11px] text-white/20 mt-1 max-w-[200px]">
-                  Click on any scenario card in the grid to configure your immersion session.
+                <p className="text-[11px] text-zinc-500 mt-1 max-w-[200px] leading-relaxed">
+                  Choose an arena card from the left panel to configure and launch your immersion training.
                 </p>
               </div>
             )}

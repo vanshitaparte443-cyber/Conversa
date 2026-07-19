@@ -8,8 +8,8 @@ interface VocabRecapProps {
 export const VocabRecap: React.FC<VocabRecapProps> = ({ vocabulary }) => {
   if (vocabulary.length === 0) {
     return (
-      <div className="bg-cyber-panel border border-white/5 rounded-lg p-5 text-center">
-        <p className="font-sans text-xs text-white/50">No vocabulary highlights recorded for this session.</p>
+      <div className="bg-zinc-900/30 border border-white/5 rounded-2xl p-6 text-center">
+        <p className="text-xs text-zinc-400">No vocabulary highlights recorded for this session.</p>
       </div>
     );
   }
@@ -17,26 +17,26 @@ export const VocabRecap: React.FC<VocabRecapProps> = ({ vocabulary }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {vocabulary.map((vocab) => (
-        <div key={vocab.id} className="bg-cyber-panel border border-white/5 hover:border-white/10 rounded-lg p-4 flex flex-col gap-2">
+        <div key={vocab.id} className="bg-zinc-900/30 border border-white/5 hover:border-white/10 rounded-2xl p-5 md:p-6 transition-all duration-300 shadow-sm flex flex-col gap-3">
           
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-white/5 pb-1.5">
-            <span className="font-sans text-base font-bold text-white tracking-wide">{vocab.word}</span>
-            <span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white/40">
+          <div className="flex items-center justify-between border-b border-white/5 pb-2">
+            <span className="text-base font-extrabold text-white tracking-wide">{vocab.word}</span>
+            <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/5 text-zinc-500">
               {vocab.partOfSpeech}
             </span>
           </div>
 
           {/* Translation */}
-          <p className="font-sans text-sm text-neon-cyan font-medium">
+          <p className="text-sm text-indigo-400 font-bold">
             {vocab.translation}
           </p>
 
           {/* Example Sentence */}
-          <div className="mt-1 bg-black/20 rounded p-2.5 border border-white/5 flex flex-col gap-1">
-            <span className="font-mono text-[9px] uppercase tracking-wider text-white/30">Context Example</span>
-            <p className="font-sans text-xs text-white/80">{vocab.exampleSentence}</p>
-            <p className="font-sans text-xs text-white/50 italic">{vocab.exampleTranslation}</p>
+          <div className="bg-zinc-950/40 rounded-xl p-3.5 border border-white/5 flex flex-col gap-1 shadow-inner">
+            <span className="text-[9px] uppercase font-bold tracking-wider text-zinc-500 block mb-0.5">Context Example</span>
+            <p className="text-xs text-zinc-300 leading-relaxed font-semibold">{vocab.exampleSentence}</p>
+            <p className="text-xs text-zinc-500 italic font-medium">{vocab.exampleTranslation}</p>
           </div>
 
         </div>

@@ -4,6 +4,7 @@ import { useSession } from '../context/SessionContext';
 import { PageTransition } from '../components/layout/PageTransition';
 import { mockScenarios } from '../data/mockScenarios';
 import { ArrowLeft, Trash2, Calendar, FileText, ChevronRight, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
@@ -19,117 +20,146 @@ export const HistoryPage: React.FC = () => {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 90) return 'text-neon-green';
-    if (score >= 75) return 'text-neon-cyan';
-    return 'text-neon-amber';
+    if (score >= 90) return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10';
+    if (score >= 75) return 'text-indigo-400 border-indigo-500/20 bg-indigo-500/10';
+    return 'text-amber-400 border-amber-500/20 bg-amber-500/10';
+  };
+
+  // Stagger entry animations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 15 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: { type: 'spring' as const, stiffness: 100 }
+    }
   };
 
   return (
     <PageTransition>
       <div className="w-full max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8 flex-grow">
         
-        {/* Header */}
+        {/* Sleek Header */}
         <header className="flex items-center justify-between border-b border-white/10 pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-1.5 font-mono text-xs uppercase tracking-widest text-neon-cyan">
-              <span className="h-1.5 w-1.5 rounded-full bg-neon-cyan animate-pulse" />
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-indigo-400 font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse-ring" />
               Conversation Archives
             </div>
-            <h1 className="text-3xl font-bold font-mono tracking-tight text-white m-0 flex items-center gap-3">
+            <h1 className="text-3xl font-extrabold tracking-tight text-white m-0 flex items-center gap-3">
               <img src="/logo.png" className="w-8 h-8 object-contain" alt="Conversa Logo" />
-              Session <span className="text-neon-cyan">History</span>
+              Session <span className="bg-gradient-to-r from-indigo-400 to-violet-400 bg-clip-text text-transparent font-normal">History</span>
             </h1>
-            <p className="font-sans text-xs text-white/50 mt-1">
+            <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
               Browse your past immersion attempts, fluency logs, and critique metrics.
             </p>
           </div>
           
           <button
             onClick={() => navigate('/select')}
-            className="font-mono text-xs uppercase tracking-wider px-3.5 py-2.5 rounded border border-white/10 hover:border-white/20 text-white/70 hover:text-white transition-all duration-200 flex items-center gap-1.5 cyber-button-clip"
+            className="text-xs font-semibold uppercase tracking-wider px-5 py-3 rounded-xl border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
-            Selection
+            Back to Select
           </button>
         </header>
 
         {/* History Area */}
         <div className="flex flex-col gap-4">
           
-          <div className="flex items-center justify-between border-b border-white/5 pb-2 font-mono text-[10px] uppercase text-white/40">
+          <div className="flex items-center justify-between border-b border-white/5 pb-2.5 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
             <span>Past Sessions ({history.length})</span>
             {history.length > 0 && (
               <button
                 onClick={clearHistory}
-                className="text-red-400 hover:text-red-300 flex items-center gap-1 hover:underline cursor-pointer"
+                className="text-rose-400 hover:text-rose-300 flex items-center gap-1 hover:underline cursor-pointer transition-colors"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash2 className="w-4 h-4" />
                 Clear Logs
               </button>
             )}
           </div>
 
           {history.length > 0 ? (
-            <div className="flex flex-col gap-3">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col gap-3.5"
+            >
               {history.map((debrief) => (
-                <div
+                <motion.div
                   key={debrief.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -2, transition: { duration: 0.2 } }}
                   onClick={() => handleRowClick(debrief)}
-                  className="bg-cyber-panel/60 border border-white/5 hover:border-neon-cyan/40 hover:bg-cyber-panel hover:shadow-[0_0_12px_rgba(0,240,255,0.05)] rounded-lg p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer transition-all duration-200 group"
+                  className="bg-zinc-900/40 border border-white/5 hover:border-indigo-500/30 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-indigo-500/[0.01] rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer transition-all duration-300 group"
                 >
                   
                   {/* Scenario Info */}
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded bg-white/5 border border-white/10 flex items-center justify-center text-white/50 group-hover:text-neon-cyan group-hover:border-neon-cyan/35 transition-colors shrink-0">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-zinc-500 group-hover:text-indigo-400 group-hover:border-indigo-500/30 transition-colors shrink-0 shadow-inner">
                       <FileText className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-sans text-sm font-bold text-white group-hover:text-neon-cyan transition-colors leading-snug">
+                      <h3 className="text-sm font-bold text-white group-hover:text-indigo-400 transition-colors leading-snug">
                         {getScenarioName(debrief.scenarioId)}
                       </h3>
-                      <div className="flex items-center gap-2 mt-0.5 text-[10px] text-white/40 font-mono">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" />
+                      <div className="flex items-center gap-2 mt-1 text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-zinc-600" />
                           {debrief.date}
                         </span>
                         <span>•</span>
-                        <span>{debrief.language}</span>
+                        <span className="text-indigo-400/80">{debrief.language}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Summary & Score */}
-                  <div className="flex items-center gap-6 justify-between w-full md:w-auto border-t border-white/5 md:border-0 pt-3 md:pt-0">
+                  <div className="flex items-center gap-6 justify-between w-full md:w-auto border-t border-white/5 md:border-0 pt-3.5 md:pt-0">
                     
                     <div className="hidden lg:block text-right max-w-xs">
-                      <p className="font-sans text-xs text-white/50 line-clamp-1 italic">
+                      <p className="text-xs text-zinc-400 line-clamp-1 italic leading-relaxed">
                         "{debrief.overallFeedback}"
                       </p>
                     </div>
 
                     <div className="flex items-center gap-4 ml-auto">
-                      <div className="text-right font-mono">
-                        <span className="text-[9px] uppercase tracking-wider text-white/30 block leading-none">Fluency</span>
-                        <span className={`text-base font-extrabold ${getScoreColor(debrief.score)}`}>
+                      <div className="text-right">
+                        <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-500 block leading-none mb-1">Fluency</span>
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${getScoreColor(debrief.score)}`}>
                           {debrief.score}%
                         </span>
                       </div>
 
-                      <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-neon-cyan group-hover:translate-x-0.5 transition-all" />
+                      <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all duration-300" />
                     </div>
 
                   </div>
 
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-white/5 rounded-lg bg-black/10">
-              <Activity className="w-8 h-8 text-white/10 mb-2 animate-pulse" />
-              <p className="font-mono text-xs text-white/30 uppercase tracking-wider">
+            <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-white/10 rounded-2xl bg-zinc-950/20">
+              <div className="w-12 h-12 rounded-full bg-zinc-900 flex items-center justify-center border border-white/5 mb-4 shadow-sm">
+                <Activity className="w-5 h-5 text-zinc-500" />
+              </div>
+              <p className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                 No Archive Found
               </p>
-              <p className="font-sans text-xs text-white/20 mt-1 max-w-xs">
+              <p className="text-xs text-zinc-500 mt-1 max-w-xs leading-relaxed">
                 You haven't completed any immersion scenarios yet. Launch an arena from selection and complete it to generate records.
               </p>
             </div>
