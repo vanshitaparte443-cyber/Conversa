@@ -9,8 +9,8 @@ interface PhrasingComparisonProps {
 export const PhrasingComparison: React.FC<PhrasingComparisonProps> = ({ phrasing }) => {
   if (phrasing.length === 0) {
     return (
-      <div className="bg-cyber-panel border border-white/5 rounded-lg p-5 text-center">
-        <p className="font-sans text-xs text-white/50">No phrasing adjustments recommended for this session.</p>
+      <div className="bg-zinc-900/30 border border-white/5 rounded-2xl p-6 text-center">
+        <p className="text-xs text-zinc-400">No phrasing adjustments recommended for this session.</p>
       </div>
     );
   }
@@ -18,35 +18,35 @@ export const PhrasingComparison: React.FC<PhrasingComparisonProps> = ({ phrasing
   return (
     <div className="flex flex-col gap-4">
       {phrasing.map((item) => (
-        <div key={item.id} className="bg-cyber-panel border border-neon-cyan/20 hover:border-neon-cyan/40 rounded-lg p-4 transition-all duration-200">
+        <div key={item.id} className="bg-zinc-900/30 border border-white/5 hover:border-white/10 rounded-2xl p-5 md:p-6 transition-all duration-300 shadow-sm flex flex-col gap-4">
           
           {/* Header */}
-          <div className="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
-            <Sparkles className="w-4 h-4 text-neon-cyan animate-pulse" />
-            <span className="font-mono text-xs uppercase tracking-wider text-neon-cyan font-semibold">Natural Phrasing Alternative</span>
+          <div className="flex items-center gap-2 border-b border-white/5 pb-2.5">
+            <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse-ring" />
+            <span className="text-xs uppercase tracking-wider text-indigo-400 font-bold">Natural Phrasing Alternative</span>
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             
             {/* Clunky/Literal Phrasing */}
-            <div className="bg-black/20 rounded p-3 border border-white/5">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-white/40 block mb-1">Literal phrasing</span>
-              <p className="font-sans text-sm text-white/60">{item.originalText}</p>
+            <div className="bg-zinc-950/40 rounded-xl p-4 border border-white/5 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500 block mb-1.5">Literal phrasing</span>
+              <p className="text-sm text-zinc-400 font-medium">{item.originalText}</p>
             </div>
 
             {/* Native Phrasing */}
-            <div className="bg-neon-cyan/5 rounded p-3 border border-neon-cyan/20">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-neon-cyan/60 block mb-1">Natural Native phrasing</span>
-              <p className="font-sans text-sm text-neon-cyan font-semibold">{item.correctedText}</p>
+            <div className="bg-indigo-500/[0.03] rounded-xl p-4 border border-indigo-500/20 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-indigo-400 block mb-1.5">Natural Native phrasing</span>
+              <p className="text-sm text-indigo-400 font-semibold">{item.correctedText}</p>
             </div>
 
           </div>
 
           {/* Explanation */}
-          <div className="mt-3 bg-white/5 rounded p-2.5 border border-white/5">
-            <p className="font-sans text-xs text-white/70 leading-relaxed">
-              <strong className="font-mono text-[10px] text-white/40 uppercase block mb-0.5">Cultural Context / Idiom</strong>
+          <div className="bg-white/[0.02] rounded-xl p-4 border border-white/5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 block mb-1">Cultural Context / Idiom</span>
+            <p className="text-xs text-zinc-300 leading-relaxed font-medium">
               {item.explanation}
             </p>
           </div>

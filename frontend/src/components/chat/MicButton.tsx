@@ -17,51 +17,51 @@ export const MicButton: React.FC = () => {
   const getButtonContent = () => {
     switch (recordingState) {
       case 'listening':
-        return <Square className="w-6 h-6 text-black fill-black" />;
+        return <Square className="w-5 h-5 text-white fill-white" />;
       case 'processing':
-        return <Loader2 className="w-6 h-6 text-neon-cyan animate-spin" />;
+        return <Loader2 className="w-5 h-5 text-indigo-400 animate-spin" />;
       default:
-        return <Mic className="w-6 h-6 text-black" />;
+        return <Mic className="w-5 h-5 text-white" />;
     }
   };
 
   const getButtonClass = () => {
     if (recordingState === 'listening') {
-      return 'bg-red-500 hover:bg-red-600 border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)]';
+      return 'bg-rose-500 hover:bg-rose-600 border-rose-400/30 shadow-[0_0_30px_rgba(244,63,94,0.4)]';
     }
     if (recordingState === 'processing') {
-      return 'bg-cyber-panel border-neon-cyan/40 cursor-wait';
+      return 'bg-zinc-900 border-zinc-800 cursor-wait';
     }
-    return 'bg-neon-cyan hover:bg-cyan-400 border-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.3)]';
+    return 'bg-gradient-to-tr from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 border-indigo-400/20 shadow-[0_8px_25px_rgba(99,102,241,0.15)] hover:shadow-[0_8px_30px_rgba(99,102,241,0.35)]';
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-3.5">
       {/* Animated Waveform container while listening */}
-      <div className="h-10 flex items-center justify-center gap-0.5 min-w-48">
+      <div className="h-10 flex items-center justify-center gap-1 min-w-56">
         {recordingState === 'listening' ? (
-          Array.from({ length: 15 }).map((_, i) => (
+          Array.from({ length: 18 }).map((_, i) => (
             <motion.div
               key={i}
-              className="w-1 bg-gradient-to-t from-neon-cyan to-blue-500 rounded-full"
+              className="w-1 bg-gradient-to-t from-indigo-500 via-purple-500 to-pink-500 rounded-full"
               initial={{ height: 4 }}
               animate={{
-                height: [4, Math.random() * 32 + 8, 4]
+                height: [4, Math.random() * 32 + 6, 4]
               }}
               transition={{
-                duration: 0.5 + Math.random() * 0.5,
+                duration: 0.4 + Math.random() * 0.4,
                 repeat: Infinity,
                 ease: 'easeInOut'
               }}
             />
           ))
         ) : recordingState === 'processing' ? (
-          <span className="font-mono text-xs text-neon-cyan/70 tracking-widest uppercase animate-pulse">
-            Processing voice print...
+          <span className="text-xs text-indigo-400 font-semibold tracking-wider uppercase animate-pulse">
+            Analyzing speech signals...
           </span>
         ) : (
-          <span className="font-mono text-xs text-white/40 tracking-wider uppercase">
-            Click mic to speak
+          <span className="text-xs text-zinc-500 font-medium tracking-wide">
+            Click microphone to speak
           </span>
         )}
       </div>
@@ -70,16 +70,20 @@ export const MicButton: React.FC = () => {
       <div className="relative">
         {/* Pulsing ring around button */}
         {recordingState === 'listening' && (
-          <div className="absolute inset-0 rounded-full bg-red-500/20 animate-ping pointer-events-none scale-125" />
+          <div className="absolute inset-0 rounded-full bg-rose-500/10 animate-ping pointer-events-none scale-125" />
         )}
         {recordingState === 'idle' && (
-          <div className="absolute inset-0 rounded-full bg-neon-cyan/10 hover:bg-neon-cyan/20 animate-pulse pointer-events-none scale-110" />
+          <motion.div 
+            animate={{ scale: [1, 1.06, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute inset-0 rounded-full bg-indigo-500/[0.04] pointer-events-none scale-110" 
+          />
         )}
 
         <button
           onClick={handlePress}
           disabled={recordingState === 'processing'}
-          className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-300 transform active:scale-95 ${getButtonClass()}`}
+          className={`w-16 h-16 rounded-full border flex items-center justify-center transition-all duration-300 transform active:scale-95 cursor-pointer ${getButtonClass()}`}
         >
           {getButtonContent()}
         </button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSession } from '../../context/SessionContext';
-import { Terminal } from 'lucide-react';
+import { Volume2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const TranscriptionPreview: React.FC = () => {
   const { transcription, recordingState } = useSession();
@@ -8,31 +9,37 @@ export const TranscriptionPreview: React.FC = () => {
   if (recordingState === 'idle') return null;
 
   return (
-    <div className="w-full bg-black/45 border border-neon-cyan/20 rounded-md p-3 font-mono text-xs text-neon-cyan/90 relative overflow-hidden">
-      
-      {/* Scanning laser line */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neon-cyan/5 to-transparent h-20 w-full animate-pulse pointer-events-none" />
-      
-      <div className="flex items-center gap-2 mb-1.5 border-b border-neon-cyan/15 pb-1">
-        <Terminal className="w-3.5 h-3.5 animate-pulse text-neon-cyan" />
-        <span className="uppercase tracking-wider font-semibold">Speech Input Monitor</span>
-        <span className="ml-auto flex items-center gap-1.5">
-          <span className={`w-1.5 h-1.5 rounded-full ${recordingState === 'listening' ? 'bg-red-500 animate-ping' : 'bg-neon-cyan animate-pulse'}`} />
-          <span className="text-[10px] text-white/50 uppercase">
-            {recordingState === 'listening' ? 'Streaming' : 'Processing Speech...'}
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full bg-zinc-900/50 border border-white/5 rounded-xl p-3.5 relative overflow-hidden shadow-inner"
+    >
+      <div className="flex items-center justify-between mb-2 border-b border-white/5 pb-1.5 text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
+        <div className="flex items-center gap-2">
+          <Volume2 className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Speech Input Monitor</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-1.5 h-1.5 rounded-full ${recordingState === 'listening' ? 'bg-rose-500 animate-pulse-ring' : 'bg-indigo-500 animate-pulse'}`} />
+          <span className="text-zinc-500 font-bold uppercase">
+            {recordingState === 'listening' ? 'Streaming' : 'Processing...'}
           </span>
-        </span>
+        </div>
       </div>
 
-      <div className="flex items-start gap-1 font-sans text-sm min-h-6 leading-relaxed text-white/95">
-        <span>&gt;</span>
-        <span className="flex-1 select-none">
-          {transcription || <span className="text-white/30 italic">Start speaking to transcribe...</span>}
+      <div className="text-sm min-h-6 leading-relaxed text-zinc-200">
+        <span className="text-zinc-600 mr-2 font-mono">&gt;</span>
+        <span className="select-none font-medium">
+          {transcription || <span className="text-zinc-600 italic font-normal">Listening to speech...</span>}
           {recordingState === 'listening' && (
-            <span className="inline-block w-1.5 h-4 bg-neon-cyan ml-0.5 align-middle blink-cursor" />
+            <motion.span 
+              animate={{ opacity: [1, 0, 1] }}
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="inline-block w-1 h-3.5 bg-indigo-500 ml-1.5 align-middle" 
+            />
           )}
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 };

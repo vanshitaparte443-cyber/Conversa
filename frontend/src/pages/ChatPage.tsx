@@ -42,15 +42,12 @@ export const ChatPage: React.FC = () => {
         {/* Persistent Immersion Context Banner */}
         <ContextBanner />
 
-        {/* Scanlines overlay to give CRT screen aesthetic */}
-        <div className="scanlines absolute inset-0 pointer-events-none z-10 opacity-30" />
-
         {/* Chat Threads Area */}
         <ChatThread />
 
-        {/* Console / Recording Controls Footer */}
-        <footer className="w-full bg-cyber-panel border-t border-white/5 p-4 flex flex-col gap-4 z-20">
-          <div className="max-w-4xl mx-auto w-full flex flex-col gap-3">
+        {/* Sleek Glassmorphic Recording Controls Footer */}
+        <footer className="w-full bg-zinc-950/65 backdrop-blur-xl border-t border-white/5 p-5 md:p-6 flex flex-col gap-4 z-25 shadow-[0_-8px_30px_rgba(0,0,0,0.3)]">
+          <div className="max-w-4xl mx-auto w-full flex flex-col gap-4">
             
             {/* Live speech transcription monitor */}
             <TranscriptionPreview />
@@ -61,9 +58,9 @@ export const ChatPage: React.FC = () => {
               {/* Left Action: Abort */}
               <button
                 onClick={handleAbort}
-                className="font-mono text-[10px] uppercase tracking-widest px-3.5 py-2.5 rounded border border-red-500/20 hover:border-red-500/60 bg-red-950/10 hover:bg-red-950/20 text-red-400 hover:text-red-300 transition-all duration-200 flex items-center gap-1.5 cyber-button-clip"
+                className="text-[11px] uppercase tracking-wider px-4 py-2.5 rounded-xl border border-rose-500/20 hover:border-rose-500/40 bg-rose-500/5 hover:bg-rose-500/10 text-rose-400 hover:text-rose-300 transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm active:scale-95 font-semibold"
               >
-                <LogOut className="w-3.5 h-3.5" />
+                <LogOut className="w-4 h-4" />
                 Abort Session
               </button>
 
@@ -73,9 +70,9 @@ export const ChatPage: React.FC = () => {
               {/* Right Action: Complete & Debrief */}
               <button
                 onClick={handleComplete}
-                className="font-mono text-[10px] uppercase tracking-widest px-3.5 py-2.5 rounded border border-neon-magenta/30 hover:border-neon-magenta bg-neon-magenta/5 hover:bg-neon-magenta/20 text-neon-magenta hover:text-white hover:shadow-[0_0_15px_rgba(255,0,127,0.35)] transition-all duration-300 flex items-center gap-1.5 cyber-button-clip"
+                className="text-[11px] uppercase tracking-wider px-4.5 py-2.5 rounded-xl border border-indigo-500/20 hover:border-indigo-400/20 bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-md hover:shadow-indigo-500/15 active:scale-[0.98] font-semibold"
               >
-                <CheckSquare className="w-3.5 h-3.5" />
+                <CheckSquare className="w-4 h-4" />
                 Finish & Debrief
               </button>
 
