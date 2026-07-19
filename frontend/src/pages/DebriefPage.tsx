@@ -78,7 +78,7 @@ export const DebriefPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="w-full min-h-screen bg-cyber-bg text-zinc-100 px-4 py-8 flex flex-col gap-8 flex-grow">
+      <div className="w-full min-h-screen bg-cyber-bg text-zinc-100 px-4 py-8 md:py-12 flex flex-col justify-center gap-8 flex-grow">
         
         {/* Sleek Header */}
         <header className="max-w-5xl mx-auto w-full border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">

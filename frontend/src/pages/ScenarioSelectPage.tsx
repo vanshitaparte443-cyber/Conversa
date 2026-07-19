@@ -75,7 +75,7 @@ export const ScenarioSelectPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="w-full max-w-6xl mx-auto px-4 py-8 flex flex-col gap-8 flex-grow">
+      <div className="w-full max-w-6xl mx-auto px-4 py-8 md:py-12 flex flex-col justify-center gap-8 flex-grow">
         
         {/* Sleek Minimalist Header */}
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-white/10 pb-6">
