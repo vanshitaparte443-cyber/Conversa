@@ -50,7 +50,7 @@ export const HistoryPage: React.FC = () => {
       <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 flex flex-col justify-center gap-8 flex-grow">
         
         {/* Sleek Header */}
-        <header className="flex items-center justify-between border-b border-white/10 pb-6">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-indigo-400 font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse-ring" />
@@ -67,7 +67,7 @@ export const HistoryPage: React.FC = () => {
           
           <button
             onClick={() => navigate('/select')}
-            className="text-xs font-semibold uppercase tracking-wider px-5 py-3 rounded-xl border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
+            className="text-xs font-semibold uppercase tracking-wider px-5 py-3 rounded-xl border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm active:scale-95 w-full sm:w-auto justify-center"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Select

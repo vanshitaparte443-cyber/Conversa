@@ -101,7 +101,7 @@ export const LoginPage: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="w-full max-w-md glass-panel p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.4)] z-20 relative overflow-hidden rounded-2xl"
+          className="w-full max-w-md glass-panel p-6 sm:p-8 md:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.4)] z-20 relative overflow-hidden rounded-2xl"
         >
           {/* Header */}
           <header className="flex flex-col items-center text-center gap-3 mb-8">

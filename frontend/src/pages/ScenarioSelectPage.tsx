@@ -5,7 +5,7 @@ import { mockScenarios } from '../data/mockScenarios';
 import type { Scenario, TargetLanguage } from '../types/scenario';
 import { PageTransition } from '../components/layout/PageTransition';
 import { History, Globe, Shield, Activity, Play } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const ScenarioSelectPage: React.FC = () => {
   const navigate = useNavigate();
@@ -171,8 +171,8 @@ export const ScenarioSelectPage: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Config & Enter Panel (Right Column) */}
-          <div className="lg:col-span-1 glass-panel rounded-2xl p-6 md:p-8 flex flex-col gap-6 relative overflow-hidden shadow-xl">
+          {/* Config & Enter Panel (Right Column - Desktop only) */}
+          <div className="hidden lg:flex lg:col-span-1 glass-panel rounded-2xl p-6 md:p-8 flex-col gap-6 relative overflow-hidden shadow-xl">
             
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500 border-b border-white/5 pb-3.5 m-0">
               Session Configuration
@@ -268,6 +268,115 @@ export const ScenarioSelectPage: React.FC = () => {
           </div>
 
         </div>
+
+        {/* Mobile Bottom Sheet Drawer overlay */}
+        <AnimatePresence>
+          {selectedScenario && (
+            <>
+              {/* Overlay Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.5 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedScenario(null)}
+                className="fixed inset-0 bg-black z-40 lg:hidden"
+              />
+
+              {/* Bottom Sheet Card */}
+              <motion.div
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+                className="fixed bottom-0 left-0 right-0 z-50 bg-zinc-900 border-t border-white/10 rounded-t-3xl p-6 lg:hidden max-h-[85vh] overflow-y-auto shadow-2xl flex flex-col gap-5"
+              >
+                {/* Drag Handle indicator */}
+                <div className="w-12 h-1.5 bg-zinc-800 rounded-full mx-auto cursor-pointer mb-2 shrink-0" onClick={() => setSelectedScenario(null)} />
+                
+                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+                    Session Configuration
+                  </h2>
+                  <button 
+                    onClick={() => setSelectedScenario(null)}
+                    className="text-xs text-zinc-500 hover:text-zinc-300 font-semibold"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                {/* Persona Details */}
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500">Selected Persona</span>
+                  <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-4 flex flex-col gap-1 shadow-inner">
+                    <span className="text-sm font-bold text-white">{selectedScenario.persona.name}</span>
+                    <p className="text-xs text-zinc-400 leading-relaxed italic">
+                      "{selectedScenario.persona.bio}"
+                    </p>
+                  </div>
+                </div>
+
+                {/* Target Language Select */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5 text-indigo-400" />
+                    Target Language
+                  </span>
+                  <div className="flex gap-2">
+                    {selectedScenario.targetLanguage.map((lang) => (
+                      <button
+                        key={lang}
+                        onClick={() => setActiveLanguage(lang as TargetLanguage)}
+                        className={`flex-1 font-semibold text-xs py-2.5 rounded-xl border transition-all duration-300 cursor-pointer ${
+                          activeLanguage === lang
+                            ? 'bg-indigo-500 border-indigo-400 text-white shadow-lg shadow-indigo-500/10'
+                            : 'bg-zinc-950 border-white/5 text-zinc-400 hover:text-zinc-200'
+                        }`}
+                      >
+                        {lang}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Target Proficiency */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[10px] uppercase font-semibold text-zinc-500 flex items-center gap-1.5">
+                    <Shield className="w-3.5 h-3.5 text-indigo-400" />
+                    Your Skill Level
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    {['Beginner', 'Intermediate', 'Advanced'].map((level) => (
+                      <button
+                        key={level}
+                        onClick={() => setActiveProficiency(level)}
+                        className={`text-xs font-semibold text-left px-4 py-3 rounded-xl border transition-all duration-300 flex items-center justify-between cursor-pointer ${
+                          activeProficiency === level
+                            ? 'bg-white/[0.04] border-indigo-500/70 text-white'
+                            : 'bg-zinc-950 border-white/5 text-zinc-400 hover:text-zinc-200'
+                        }`}
+                      >
+                        {level}
+                        {activeProficiency === level && (
+                          <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)] animate-pulse" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Launch Button */}
+                <button
+                  onClick={handleLaunch}
+                  className="w-full bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white font-semibold text-xs uppercase tracking-widest py-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all mt-2 shrink-0"
+                >
+                  <Play className="w-4 h-4 fill-white" />
+                  Launch Session
+                </button>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
 
       </div>
     </PageTransition>

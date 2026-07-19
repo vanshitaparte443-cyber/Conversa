@@ -58,10 +58,10 @@ export const ChatPage: React.FC = () => {
               {/* Left Action: Abort */}
               <button
                 onClick={handleAbort}
-                className="text-[11px] uppercase tracking-wider px-4 py-2.5 rounded-xl border border-rose-500/20 hover:border-rose-500/40 bg-rose-500/5 hover:bg-rose-500/10 text-rose-400 hover:text-rose-300 transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-sm active:scale-95 font-semibold"
+                className="text-[11px] uppercase tracking-wider px-3.5 sm:px-4 py-2.5 rounded-xl border border-rose-500/20 hover:border-rose-500/40 bg-rose-500/5 hover:bg-rose-500/10 text-rose-400 hover:text-rose-300 transition-all duration-300 flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-sm active:scale-95 font-semibold"
               >
-                <LogOut className="w-4 h-4" />
-                Abort Session
+                <LogOut className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Abort Session</span>
               </button>
 
               {/* Center Action: Animated Speech Mic Button */}
@@ -70,10 +70,10 @@ export const ChatPage: React.FC = () => {
               {/* Right Action: Complete & Debrief */}
               <button
                 onClick={handleComplete}
-                className="text-[11px] uppercase tracking-wider px-4.5 py-2.5 rounded-xl border border-indigo-500/20 hover:border-indigo-400/20 bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-md hover:shadow-indigo-500/15 active:scale-[0.98] font-semibold"
+                className="text-[11px] uppercase tracking-wider px-4 sm:px-4.5 py-2.5 rounded-xl border border-indigo-500/20 hover:border-indigo-400/20 bg-indigo-500/10 hover:bg-indigo-500 text-indigo-400 hover:text-white transition-all duration-300 flex items-center gap-1.5 sm:gap-2 cursor-pointer shadow-md hover:shadow-indigo-500/15 active:scale-[0.98] font-semibold"
               >
-                <CheckSquare className="w-4 h-4" />
-                Finish & Debrief
+                <CheckSquare className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Finish & Debrief</span>
               </button>
 
             </div>

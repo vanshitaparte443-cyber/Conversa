@@ -165,16 +165,16 @@ export const DebriefPage: React.FC = () => {
             {(['mistakes', 'phrasing', 'vocab'] as const).map((tab) => {
               const isActive = activeTab === tab;
               const tabLabels = {
-                mistakes: { label: 'Key Mistakes', icon: AlertCircle },
-                phrasing: { label: 'Natural Phrasing', icon: Compass },
-                vocab: { label: 'Vocabulary Recap', icon: BookOpen },
+                mistakes: { label: 'Key Mistakes', shortLabel: 'Mistakes', icon: AlertCircle },
+                phrasing: { label: 'Natural Phrasing', shortLabel: 'Phrasing', icon: Compass },
+                vocab: { label: 'Vocabulary Recap', shortLabel: 'Vocab', icon: BookOpen },
               };
               const Icon = tabLabels[tab].icon;
               return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative px-5 py-3 text-xs font-semibold uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer select-none flex-1 md:flex-none ${
+                  className={`relative px-3 sm:px-5 py-3 text-xs font-semibold uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 transition-colors cursor-pointer select-none flex-1 md:flex-none ${
                     isActive ? 'text-indigo-400' : 'text-zinc-500 hover:text-zinc-300'
                   }`}
                   style={{ zIndex: 1 }}
@@ -188,7 +188,8 @@ export const DebriefPage: React.FC = () => {
                     />
                   )}
                   <Icon className="w-4 h-4 shrink-0" />
-                  <span className="relative z-10">{tabLabels[tab].label}</span>
+                  <span className="relative z-10 hidden sm:inline">{tabLabels[tab].label}</span>
+                  <span className="relative z-10 inline sm:hidden">{tabLabels[tab].shortLabel}</span>
                 </button>
               );
             })}
