@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Loader2, ShieldAlert, Sparkles, MessageSquare, Mic, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { PageTransition } from '../components/layout/PageTransition';
 import { supabase } from '../lib/supabase';
 
@@ -181,72 +181,11 @@ export const LoginPage: React.FC = () => {
 
   return (
     <PageTransition>
-      {/* Viewport: Clean canvas with ambient glow & Conversa brand structure */}
-      <div className="w-full min-h-screen bg-[#F3F4F6] flex flex-col items-center justify-between p-4 md:py-6 selection:bg-blue-600 selection:text-white font-sans relative overflow-x-hidden">
+      {/* Viewport: Clean off-white canvas with centered auth card */}
+      <div className="w-full min-h-screen bg-[#F0F2F5] flex flex-col items-center justify-center p-4 selection:bg-blue-600 selection:text-white font-sans relative overflow-x-hidden">
         
-        {/* Ambient background light effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-blue-400/10 via-indigo-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-
-        {/* ========================================================================= */}
-        {/* HEADER BAR: Official Conversa Brand Identity */}
-        {/* ========================================================================= */}
-        <header className="w-full max-w-5xl flex items-center justify-between py-2 px-2 z-10">
-          <div className="flex items-center gap-3 select-none">
-            <img
-              src="/logo.png"
-              alt="Conversa Logo"
-              className="w-9 h-9 object-contain drop-shadow-xs hover:scale-105 transition-transform"
-            />
-            <div className="flex flex-col">
-              <span className="font-brand font-black text-2xl tracking-tight text-slate-900 leading-none">
-                Conversa
-              </span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 mt-0.5">
-                AI Immersion Studio
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white border border-slate-200/90 text-slate-700 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              10+ Regional Indian Languages
-            </span>
-          </div>
-        </header>
-
-        {/* ========================================================================= */}
-        {/* HERO TITLE & FEATURE TICKER: Explains what Conversa does */}
-        {/* ========================================================================= */}
-        <div className="w-full max-w-xl text-center flex flex-col items-center my-3 z-10">
-          <h1 className="font-brand text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight mb-1">
-            Master Real-World Conversations <span className="text-blue-600">with AI</span>
-          </h1>
-          <p className="text-xs text-slate-500 max-w-md font-medium leading-relaxed mb-3">
-            Real-time speech roleplays & dialect immersion powered by Sarvam AI.
-          </p>
-
-          {/* Feature Badge Ribbon */}
-          <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-slate-600">
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 border border-slate-200 shadow-2xs">
-              <Mic className="w-3 h-3 text-blue-600" />
-              Live Voice STT
-            </span>
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 border border-slate-200 shadow-2xs">
-              <MessageSquare className="w-3 h-3 text-indigo-600" />
-              Chai Stall & Market Roleplays
-            </span>
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/80 border border-slate-200 shadow-2xs">
-              <Sparkles className="w-3 h-3 text-amber-500" />
-              Sarvam AI Neural Engine
-            </span>
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
         {/* MAIN AUTH CARD CONTAINER - Sliding Blue Theme Overlay Card */}
-        {/* ========================================================================= */}
-        <div className="relative w-full max-w-3xl min-h-[490px] md:min-h-[510px] bg-white rounded-[28px] shadow-[0_20px_50px_rgba(37,99,235,0.12),_0_10px_25px_rgba(0,0,0,0.06)] border border-slate-200/80 overflow-hidden flex flex-col md:flex-row z-10 my-auto">
+        <div className="relative w-full max-w-3xl min-h-[480px] md:min-h-[500px] bg-white rounded-[24px] shadow-[0_14px_28px_rgba(0,0,0,0.15),_0_10px_10px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col md:flex-row z-10">
           
           {/* ========================================================================= */}
           {/* 1. SIGN IN FORM (Left Side) */}
@@ -259,9 +198,9 @@ export const LoginPage: React.FC = () => {
             }`}
           >
             <form onSubmit={handleSubmit} className="w-full max-w-xs flex flex-col items-center gap-3">
-              <h2 className="font-brand text-3xl font-extrabold text-slate-900 tracking-tight mb-1">
+              <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight mb-1">
                 Sign In
-              </h2>
+              </h1>
 
               {/* Dedicated Google Auth Button */}
               <button
@@ -319,7 +258,7 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate('/select')}
-                className="text-[11px] font-medium text-slate-500 hover:text-blue-600 transition-colors my-0.5 cursor-pointer"
+                className="text-[11px] text-slate-500 hover:text-blue-600 transition-colors my-1 cursor-pointer"
               >
                 Forgot your password?
               </button>
@@ -328,12 +267,12 @@ export const LoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed mt-1"
+                className="bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] hover:from-blue-600 hover:to-indigo-800 text-white font-bold text-xs uppercase tracking-wider px-12 py-3 rounded-full shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 cursor-pointer mt-1 flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Signing In...</span>
+                    <span>SIGNING IN...</span>
                   </>
                 ) : (
                   <span>SIGN IN</span>
@@ -341,7 +280,7 @@ export const LoginPage: React.FC = () => {
               </button>
 
               {/* Mobile screen toggle */}
-              <div className="block md:hidden mt-3 text-xs text-slate-500">
+              <div className="block md:hidden mt-4 text-xs text-slate-500">
                 Don't have an account?{' '}
                 <button
                   type="button"
@@ -365,9 +304,9 @@ export const LoginPage: React.FC = () => {
             }`}
           >
             <form onSubmit={handleSubmit} className="w-full max-w-xs flex flex-col items-center gap-3">
-              <h2 className="font-brand text-3xl font-extrabold text-slate-900 tracking-tight mb-1">
+              <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight mb-1">
                 Create Account
-              </h2>
+              </h1>
 
               {/* Dedicated Google Auth Button */}
               <button
@@ -436,12 +375,12 @@ export const LoginPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] hover:from-blue-600 hover:to-indigo-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-lg shadow-blue-500/25 hover:shadow-blue-500/35 active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed mt-1"
+                className="bg-gradient-to-r from-[#3B82F6] to-[#1D4ED8] hover:from-blue-600 hover:to-indigo-800 text-white font-bold text-xs uppercase tracking-wider px-12 py-3 rounded-full shadow-md hover:shadow-lg active:scale-95 transition-all duration-200 cursor-pointer mt-2 flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Creating Account...</span>
+                    <span>SIGNING UP...</span>
                   </>
                 ) : (
                   <span>SIGN UP</span>
@@ -449,7 +388,7 @@ export const LoginPage: React.FC = () => {
               </button>
 
               {/* Mobile screen toggle */}
-              <div className="block md:hidden mt-3 text-xs text-slate-500">
+              <div className="block md:hidden mt-4 text-xs text-slate-500">
                 Already have an account?{' '}
                 <button
                   type="button"
@@ -463,60 +402,52 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* ========================================================================= */}
-          {/* 3. SLIDING BRAND PANEL (Conversa Identity & Mission Copy) */}
+          {/* 3. SLIDING BLUE OVERLAY PANEL (Vibrant Blue Theme Shift) */}
           {/* ========================================================================= */}
           <div
             className={`hidden md:block absolute top-0 left-0 w-1/2 h-full z-30 overflow-hidden transition-transform duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] ${
               isSignUp ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
-            {/* Double-width sliding flex container */}
+            {/* Double-width inner panel to shift text seamlessly */}
             <div
               className={`w-[200%] h-full flex transition-transform duration-600 ease-[cubic-bezier(0.65,0,0.35,1)] ${
                 isSignUp ? 'translate-x-0' : '-translate-x-1/2'
               }`}
             >
               
-              {/* SUB-PANEL A: Welcome Back! (Left position when isSignUp is TRUE) */}
-              <div className="w-1/2 h-full bg-gradient-to-br from-[#3B82F6] via-[#1D4ED8] to-[#1E3A8A] text-white p-10 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                {/* Micro-depth layered ambient glass rings */}
-                <div className="absolute -top-24 -left-24 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-blue-950/40 rounded-full blur-3xl pointer-events-none" />
-
+              {/* SUB-PANEL A: Welcome Back! (Positioned on Left when isSignUp is TRUE) */}
+              <div className="w-1/2 h-full bg-gradient-to-br from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white p-10 flex flex-col items-center justify-center text-center relative overflow-hidden">
                 <div className="max-w-xs flex flex-col items-center z-10">
-                  <h3 className="font-brand text-3xl font-extrabold tracking-tight mb-3 text-white drop-shadow-md">
+                  <h2 className="text-3xl font-extrabold tracking-tight mb-3 text-white">
                     Welcome Back!
-                  </h3>
+                  </h2>
                   <p className="text-xs text-blue-100/90 leading-relaxed mb-6 font-normal px-2">
-                    Ready for your next speech roleplay? Log in to continue your conversational fluency streak with Sarvam AI.
+                    Stay connected by logging in with your credentials and continue your experience
                   </p>
                   <button
                     type="button"
                     onClick={() => toggleAuthMode(false)}
-                    className="border-2 border-white text-white hover:bg-white hover:text-blue-700 active:scale-95 text-xs font-bold uppercase tracking-wider px-10 py-3 rounded-full transition-all duration-300 cursor-pointer shadow-lg shadow-blue-950/40"
+                    className="border-2 border-white text-white hover:bg-white hover:text-blue-700 active:scale-95 text-xs font-bold uppercase tracking-wider px-10 py-2.5 rounded-full transition-all duration-300 cursor-pointer"
                   >
                     SIGN IN
                   </button>
                 </div>
               </div>
 
-              {/* SUB-PANEL B: Hey There! (Right position when isSignUp is FALSE) */}
-              <div className="w-1/2 h-full bg-gradient-to-br from-[#3B82F6] via-[#1D4ED8] to-[#1E3A8A] text-white p-10 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                {/* Micro-depth layered ambient glass rings */}
-                <div className="absolute -top-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-blue-950/40 rounded-full blur-3xl pointer-events-none" />
-
+              {/* SUB-PANEL B: Hey There! (Positioned on Right when isSignUp is FALSE) */}
+              <div className="w-1/2 h-full bg-gradient-to-br from-[#3B82F6] via-[#2563EB] to-[#1D4ED8] text-white p-10 flex flex-col items-center justify-center text-center relative overflow-hidden">
                 <div className="max-w-xs flex flex-col items-center z-10">
-                  <h3 className="font-brand text-3xl font-extrabold tracking-tight mb-3 text-white drop-shadow-md">
+                  <h2 className="text-3xl font-extrabold tracking-tight mb-3 text-white">
                     Hey There!
-                  </h3>
+                  </h2>
                   <p className="text-xs text-blue-100/90 leading-relaxed mb-6 font-normal px-2">
-                    Begin your language immersion journey today. Practice 10+ regional Indian dialects with real-time AI speech feedback.
+                    Begin your amazing journey by creating an account with us today
                   </p>
                   <button
                     type="button"
                     onClick={() => toggleAuthMode(true)}
-                    className="border-2 border-white text-white hover:bg-white hover:text-blue-700 active:scale-95 text-xs font-bold uppercase tracking-wider px-10 py-3 rounded-full transition-all duration-300 cursor-pointer shadow-lg shadow-blue-950/40"
+                    className="border-2 border-white text-white hover:bg-white hover:text-blue-700 active:scale-95 text-xs font-bold uppercase tracking-wider px-10 py-2.5 rounded-full transition-all duration-300 cursor-pointer"
                   >
                     SIGN UP
                   </button>
@@ -530,34 +461,10 @@ export const LoginPage: React.FC = () => {
 
         {/* Global error notification fallback if needed */}
         {globalError && (
-          <div className="mt-3 max-w-sm w-full bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 text-xs text-center z-10 flex items-center justify-center gap-2 animate-fade-in">
-            <ShieldAlert className="w-4 h-4 shrink-0 text-red-500" />
-            <span>{globalError}</span>
+          <div className="mt-4 max-w-sm w-full bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 text-xs text-center z-10 animate-fade-in">
+            {globalError}
           </div>
         )}
-
-        {/* ========================================================================= */}
-        {/* FOOTER BAR: Trust, Tech & Copyright Credentials */}
-        {/* ========================================================================= */}
-        <footer className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-2 pt-4 border-t border-slate-200/60 text-[11px] text-slate-500 font-mono z-10">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-700">Conversa Studio © 2026</span>
-            <span>•</span>
-            <span>Language Immersion Studio</span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-slate-600 font-semibold">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              Sarvam AI Speech Engine
-            </span>
-            <span className="hidden md:inline text-slate-300">•</span>
-            <span className="hidden md:flex items-center gap-1 text-slate-600 font-semibold">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              100% Authentic Roleplay Scenarios
-            </span>
-          </div>
-        </footer>
 
       </div>
     </PageTransition>
