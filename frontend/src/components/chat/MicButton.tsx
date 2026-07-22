@@ -36,20 +36,20 @@ export const MicButton: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-3.5">
       {/* Animated Waveform container while listening */}
-      <div className="h-10 flex items-center justify-center gap-0.5 min-w-48">
+      <div className="h-10 flex items-center justify-center gap-1 min-w-56">
         {recordingState === 'listening' ? (
-          Array.from({ length: 15 }).map((_, i) => (
+          Array.from({ length: 18 }).map((_, i) => (
             <motion.div
               key={i}
               className="w-1 bg-[#F4602A] rounded-full"
               initial={{ height: 4 }}
               animate={{
-                height: [4, Math.random() * 32 + 8, 4]
+                height: [4, Math.random() * 32 + 6, 4]
               }}
               transition={{
-                duration: 0.5 + Math.random() * 0.5,
+                duration: 0.4 + Math.random() * 0.4,
                 repeat: Infinity,
                 ease: 'easeInOut'
               }}

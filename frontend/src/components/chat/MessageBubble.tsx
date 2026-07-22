@@ -22,7 +22,12 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, personaAv
   };
 
   return (
-    <div className={`flex gap-3 max-w-[85%] md:max-w-[75%] ${isUser ? 'self-end flex-row-reverse' : 'self-start'}`}>
+    <motion.div 
+      initial={{ opacity: 0, y: 15, scale: 0.97 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className={`flex gap-3.5 max-w-[85%] md:max-w-[70%] ${isUser ? 'self-end flex-row-reverse' : 'self-start'}`}
+    >
       
       {/* Avatar Icon */}
       {!isUser && (
@@ -38,7 +43,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, personaAv
       )}
 
       {/* Bubble Box */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         
         {/* Sender and Time */}
         <div className={`flex items-center gap-2 font-mono text-[10px] text-zinc-500 ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -72,7 +77,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, personaAv
 
           {/* Controls inside Bubble */}
           {message.translation && (
-            <div className={`flex items-center gap-2 mt-1.5 ${isUser ? 'justify-end' : 'justify-start'}`}>
+            <div className={`flex items-center gap-2 mt-2 ${isUser ? 'justify-end' : 'justify-start'}`}>
               <button 
                 onClick={() => setShowTranslation(!showTranslation)}
                 className={`font-mono text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-md flex items-center gap-1 border transition-colors cursor-pointer ${
@@ -90,6 +95,6 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, personaAv
 
       </div>
 
-    </div>
+    </motion.div>
   );
 };

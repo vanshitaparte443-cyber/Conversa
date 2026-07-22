@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSession } from '../../context/SessionContext';
-import { Terminal } from 'lucide-react';
+import { Volume2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const TranscriptionPreview: React.FC = () => {
   const { transcription, recordingState } = useSession();
@@ -17,7 +18,7 @@ export const TranscriptionPreview: React.FC = () => {
           <span className="text-[10px] text-zinc-500 uppercase font-semibold">
             {recordingState === 'listening' ? 'Streaming' : 'Processing Speech...'}
           </span>
-        </span>
+        </div>
       </div>
 
       <div className="flex items-start gap-1 font-sans text-sm min-h-6 leading-relaxed text-zinc-900">
@@ -29,6 +30,6 @@ export const TranscriptionPreview: React.FC = () => {
           )}
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 };

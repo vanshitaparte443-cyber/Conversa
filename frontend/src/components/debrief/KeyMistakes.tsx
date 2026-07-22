@@ -28,7 +28,7 @@ export const KeyMistakes: React.FC<KeyMistakesProps> = ({ mistakes }) => {
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             
             {/* Original Text */}
             <div className="bg-rose-50/60 rounded-xl p-3.5 border border-rose-200">

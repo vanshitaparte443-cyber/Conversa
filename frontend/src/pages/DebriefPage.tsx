@@ -6,12 +6,14 @@ import { KeyMistakes } from '../components/debrief/KeyMistakes';
 import { PhrasingComparison } from '../components/debrief/PhrasingComparison';
 import { VocabRecap } from '../components/debrief/VocabRecap';
 import { Award, ArrowLeft, RefreshCw, ChevronRight, BookOpen, AlertCircle, Compass } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const DebriefPage: React.FC = () => {
   const navigate = useNavigate();
   const { currentDebrief, currentScenario, currentLanguage, selectScenario, resetSession } = useSession();
   
   const [activeTab, setActiveTab] = useState<'mistakes' | 'phrasing' | 'vocab'>('mistakes');
+  const [animatedScore, setAnimatedScore] = useState(0);
 
   // Redirect if no active debrief is loaded
   useEffect(() => {
@@ -19,6 +21,28 @@ export const DebriefPage: React.FC = () => {
       navigate('/select');
     }
   }, [currentDebrief, navigate]);
+
+  // Fluency score count-up effect
+  useEffect(() => {
+    if (!currentDebrief) return;
+    let start = 0;
+    const end = currentDebrief.score;
+    if (start === end) {
+      setAnimatedScore(end);
+      return;
+    }
+    const duration = 1200; // 1.2s total duration
+    const stepTime = Math.abs(Math.floor(duration / end));
+    const timer = setInterval(() => {
+      start += 1;
+      setAnimatedScore(start);
+      if (start >= end) {
+        clearInterval(timer);
+      }
+    }, Math.max(stepTime, 15));
+    
+    return () => clearInterval(timer);
+  }, [currentDebrief]);
 
   if (!currentDebrief) return null;
 
@@ -31,10 +55,7 @@ export const DebriefPage: React.FC = () => {
   const handleTryHarder = () => {
     if (!currentScenario) return;
     
-    // Find a harder scenario or just launch current with 'Hard' setting
     const nextDiff = currentScenario.difficulty === 'Easy' ? 'Medium' : 'Hard';
-    
-    // Modify selected scenario to next difficulty
     const upgradedScenario = {
       ...currentScenario,
       difficulty: nextDiff as any

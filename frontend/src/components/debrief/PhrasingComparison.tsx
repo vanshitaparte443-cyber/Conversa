@@ -27,7 +27,7 @@ export const PhrasingComparison: React.FC<PhrasingComparisonProps> = ({ phrasing
           </div>
 
           {/* Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
             
             {/* Clunky/Literal Phrasing */}
             <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-200">

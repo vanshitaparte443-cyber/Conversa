@@ -467,7 +467,7 @@ export const LoginPage: React.FC = () => {
             </div>
           </div>
 
-        </div>
+        </motion.div>
 
         {/* Global error notification fallback if needed */}
         {globalError && (
@@ -481,3 +481,4 @@ export const LoginPage: React.FC = () => {
     </PageTransition>
   );
 };
+

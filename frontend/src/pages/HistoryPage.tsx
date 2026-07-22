@@ -4,6 +4,7 @@ import { useSession } from '../context/SessionContext';
 import { PageTransition } from '../components/layout/PageTransition';
 import { mockScenarios } from '../data/mockScenarios';
 import { ArrowLeft, Trash2, Calendar, FileText, ChevronRight, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
@@ -63,17 +64,24 @@ export const HistoryPage: React.FC = () => {
                 onClick={clearHistory}
                 className="text-rose-700 hover:text-rose-800 flex items-center gap-1 hover:underline cursor-pointer font-semibold"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash2 className="w-4 h-4" />
                 Clear Logs
               </button>
             )}
           </div>
 
           {history.length > 0 ? (
-            <div className="flex flex-col gap-3">
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col gap-3.5"
+            >
               {history.map((debrief) => (
-                <div
+                <motion.div
                   key={debrief.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -2, transition: { duration: 0.2 } }}
                   onClick={() => handleRowClick(debrief)}
                   className="bg-white border border-[#E4E4E7] hover:border-orange-300 hover:shadow-xs rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 cursor-pointer transition-all duration-200 group"
                 >
@@ -93,7 +101,7 @@ export const HistoryPage: React.FC = () => {
                           {debrief.date}
                         </span>
                         <span>•</span>
-                        <span>{debrief.language}</span>
+                        <span className="text-indigo-400/80">{debrief.language}</span>
                       </div>
                     </div>
                   </div>
@@ -120,9 +128,9 @@ export const HistoryPage: React.FC = () => {
 
                   </div>
 
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-zinc-300 rounded-2xl bg-white shadow-xs">
               <Activity className="w-8 h-8 text-[#F4602A] mb-2 animate-pulse" />
