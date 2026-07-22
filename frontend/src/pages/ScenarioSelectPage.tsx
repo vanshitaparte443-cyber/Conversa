@@ -4,6 +4,7 @@ import { useSession } from '../context/SessionContext';
 import { mockScenarios } from '../data/mockScenarios';
 import type { Scenario, TargetLanguage } from '../types/scenario';
 import { PageTransition } from '../components/layout/PageTransition';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   History, 
   Globe, 
@@ -25,7 +26,7 @@ export const ScenarioSelectPage: React.FC = () => {
   const { selectScenario } = useSession();
   
   // Default selected scenario: Bengaluru Tech Interview
-  const [selectedScenario, setSelectedScenario] = useState<Scenario>(
+  const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(
     mockScenarios.find(s => s.id === 'job-interview') || mockScenarios[0]
   );
   const [activeLanguage, setActiveLanguage] = useState<TargetLanguage>('English');
@@ -44,6 +45,8 @@ export const ScenarioSelectPage: React.FC = () => {
     selectScenario(selectedScenario, activeLanguage, activeProficiency);
     navigate('/chat');
   };
+
+  const handleLaunch = handleStartSession;
 
   const getScenarioIcon = (id: string) => {
     switch (id) {

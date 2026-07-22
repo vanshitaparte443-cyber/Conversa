@@ -6,7 +6,6 @@ import { KeyMistakes } from '../components/debrief/KeyMistakes';
 import { PhrasingComparison } from '../components/debrief/PhrasingComparison';
 import { VocabRecap } from '../components/debrief/VocabRecap';
 import { Award, ArrowLeft, RefreshCw, ChevronRight, BookOpen, AlertCircle, Compass } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export const DebriefPage: React.FC = () => {
   const navigate = useNavigate();
@@ -113,7 +112,7 @@ export const DebriefPage: React.FC = () => {
             <span className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider mb-2 font-semibold">Fluency Score</span>
             
             <div className={`w-28 h-28 rounded-full border-4 flex flex-col items-center justify-center shadow-xs ${getScoreColor(currentDebrief.score)}`}>
-              <span className="font-mono text-3xl font-extrabold">{currentDebrief.score}%</span>
+              <span className="font-mono text-3xl font-extrabold">{animatedScore}%</span>
               <span className="text-[9px] uppercase tracking-widest text-zinc-500 font-semibold -mt-0.5">Accurate</span>
             </div>
 

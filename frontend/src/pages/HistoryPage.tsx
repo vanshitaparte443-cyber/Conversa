@@ -6,6 +6,21 @@ import { mockScenarios } from '../data/mockScenarios';
 import { ArrowLeft, Trash2, Calendar, FileText, ChevronRight, Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 }
+};
+
 export const HistoryPage: React.FC = () => {
   const navigate = useNavigate();
   const { history, loadHistoricalDebrief, clearHistory } = useSession();
