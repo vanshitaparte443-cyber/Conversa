@@ -1,7 +1,10 @@
 {
   "name": "conversa-root",
   "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "build": "npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm run build --workspace=frontend"
   }
 }
