@@ -21,7 +21,14 @@ import {
   Search,
   Star,
   Headphones,
-  Sparkle
+  Sparkle,
+  HelpCircle,
+  ChevronDown,
+  Check,
+  Compass,
+  Layers,
+  Radio,
+  X
 } from 'lucide-react';
 import { PageTransition } from '../components/layout/PageTransition';
 
@@ -31,8 +38,8 @@ const containerStagger = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.05
+      staggerChildren: 0.08,
+      delayChildren: 0.04
     }
   }
 };
@@ -47,7 +54,29 @@ const fadeUpVariant = {
 };
 
 // Interactive Demo Scenarios for the Hero Widget
-const HERO_DEMOS = [
+interface HeroDemo {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  avatar: string;
+  avatarGradient: string;
+  dialogue: string;
+  scriptDialogue?: string;
+  translation: string;
+  audioText: string;
+  langTag: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  responses: Array<{
+    label: string;
+    text: string;
+    translation: string;
+    aiReply: string;
+    aiReplyTranslation: string;
+  }>;
+}
+
+const HERO_DEMOS: HeroDemo[] = [
   {
     id: 'ramesh',
     name: 'Ramesh Lal',
@@ -56,27 +85,57 @@ const HERO_DEMOS = [
     avatar: 'R',
     avatarGradient: 'from-[#A8562E] via-[#E8A33D] to-[#F4602A]',
     dialogue: "Arre madam! 1200 Rupaye pure silk jacket ke bol raha hoon. Colaba mein isse sasta koi nahi dega!",
-    translation: "Madam! I'm asking 1200 Rupees for pure silk jacket. Nobody in Colaba will sell cheaper than this!",
-    userResponse: "Bhaiya 800 Rupaye bolo, abhi le leta hoon!",
-    userTranslation: "Brother say 800 Rupees, I will buy right now!",
+    scriptDialogue: "अरे मैडम! 1200 रुपये प्योर सिल्क जैकेट के बोल रहा हूँ। कोलाबा में इससे सस्ता कोई नहीं देगा!",
+    translation: "Madam! I'm asking 1,200 Rupees for this pure silk jacket. Nobody in Colaba will sell cheaper than this!",
     audioText: "Arre madam! 1200 Rupaye pure silk jacket ke bol raha hoon. Colaba mein isse sasta koi nahi dega!",
     langTag: 'Bambaiya Hindi',
-    difficulty: 'Medium'
+    difficulty: 'Medium',
+    responses: [
+      {
+        label: 'Bargain hard at 800',
+        text: 'Bhaiya 800 Rupaye bolo, abhi cash deta hoon!',
+        translation: 'Brother say 800 Rupees, I will pay cash right now!',
+        aiReply: 'Aap toh bilkul jaan nikal rahe ho! 950 mein final pack karta hoon, na aapka na mera.',
+        aiReplyTranslation: 'You are cutting my margins! I will pack it at 950 final, neither your price nor mine.'
+      },
+      {
+        label: 'Ask for quality proof',
+        text: 'Yeh asli silk hai na bhaiya? Guaranteed?',
+        translation: 'Is this real silk brother? Guaranteed?',
+        aiReply: '100% guarantee madam! Aag laga ke check kar lo, duplicate nikla toh dukaan aapki!',
+        aiReplyTranslation: '100% guarantee madam! Check by burn test, if fake the shop is yours!'
+      }
+    ]
   },
   {
     id: 'karan',
     name: 'Karan Bhai',
-    role: 'Chai Stall Owner',
+    role: 'Chai Stall Master',
     location: 'Lal Darwaja, Ahmedabad',
     avatar: 'K',
     avatarGradient: 'from-amber-600 via-orange-500 to-yellow-500',
     dialogue: "Bhai, ek kadak adrak chai ke saath fresh maska bun try karo! Subah subah maza aa jayega.",
-    translation: "Brother, try fresh butter bun with strong ginger tea! It will make your morning awesome.",
-    userResponse: "Chai mein cheeni kam rakhna aur bun achha tost karna bhaiya!",
-    userTranslation: "Keep less sugar in tea and toast the bun nicely brother!",
+    scriptDialogue: "ભાઈ, એક કડક અદરક ચાય સાથે ફ્રેશ મસ્કા બન ટ્રાય કરો!",
+    translation: "Brother, try a fresh butter bun with strong ginger tea! It will make your morning awesome.",
     audioText: "Bhai, ek kadak adrak chai ke saath fresh maska bun try karo! Subah subah maza aa jayega.",
     langTag: 'Gujarati Hindi',
-    difficulty: 'Easy'
+    difficulty: 'Easy',
+    responses: [
+      {
+        label: 'Custom tea order',
+        text: 'Chai mein cheeni kam aur adrak thodi zyada rakhna!',
+        translation: 'Keep less sugar and a bit more ginger in the tea!',
+        aiReply: 'Basso bhaiya! Bilkul waisi hi kadak cutting chai tayyar kar raha hoon!',
+        aiReplyTranslation: 'Done brother! Making exactly that strong cutting tea right away!'
+      },
+      {
+        label: 'Ask for bun maska extra',
+        text: 'Bun mein thoda extra butter lagana bhaiya!',
+        translation: 'Apply a bit of extra butter on the bun brother!',
+        aiReply: 'Hahaha bilkul! Butter mein kanjoosi nahi karte hum!',
+        aiReplyTranslation: 'Hahaha absolutely! We never stingy with butter!'
+      }
+    ]
   },
   {
     id: 'shruti',
@@ -86,17 +145,68 @@ const HERO_DEMOS = [
     avatar: 'S',
     avatarGradient: 'from-purple-600 via-indigo-600 to-blue-500',
     dialogue: "That's a solid start. Now walk me through how your async queue handles socket dropouts under 10k RPS load.",
-    translation: "Technical deep-dive on system reliability under heavy distributed traffic.",
-    userResponse: "We utilize backpressure buffers with exponential retry fallbacks in Redis...",
-    userTranslation: "Explaining robust architectural state recovery.",
+    scriptDialogue: "That's a solid start. Now walk me through how your async queue handles socket dropouts under 10k RPS load.",
+    translation: "Technical deep-dive on distributed system reliability under heavy traffic.",
     audioText: "That's a solid start. Now walk me through how your async queue handles socket dropouts under 10k RPS load.",
     langTag: 'Tech English',
-    difficulty: 'Hard'
+    difficulty: 'Hard',
+    responses: [
+      {
+        label: 'Explain Redis retry fallback',
+        text: 'We utilize backpressure buffers with exponential retry fallbacks in Redis queue...',
+        translation: 'Explaining robust architectural state recovery under stress.',
+        aiReply: 'Good. What happens if the primary Redis node hits OOM during peak traffic spikes?',
+        aiReplyTranslation: 'Testing fault tolerance and eviction policy awareness.'
+      },
+      {
+        label: 'Discuss WebSocket reconnection',
+        text: 'We issue heartbeat frames and client-side reconnection tokens to resume session state.',
+        translation: 'Describing client-side state preservation mechanisms.',
+        aiReply: 'Impressive detail. How do you prevent herd reconnection stampedes?',
+        aiReplyTranslation: 'Probing knowledge on randomized jitter backoff implementation.'
+      }
+    ]
+  },
+  {
+    id: 'subir',
+    name: 'Subir Da',
+    role: 'Tram Conductor & Bookseller',
+    location: 'College Street, Kolkata',
+    avatar: 'S',
+    avatarGradient: 'from-emerald-600 via-teal-600 to-cyan-500',
+    dialogue: "Dada, Rabindranath-er vintage poetry collection ta khujchhen? 1964-er rare edition aachhe!",
+    scriptDialogue: "দাদা, রবীন্দ্রনাথের ভিনটেজ পোয়েট্রি কালেকশনটা খুঁজছেন?",
+    translation: "Brother, looking for Rabindranath's vintage poetry collection? I have a rare 1964 edition!",
+    audioText: "Dada, Rabindranath-er vintage poetry collection ta khujchhen? 1964-er rare edition aachhe!",
+    langTag: 'Calcutta Bengali',
+    difficulty: 'Medium',
+    responses: [
+      {
+        label: 'Ask about book price',
+        text: 'Eti koto daam dada? Hardcover binder achhe ki?',
+        translation: 'How much is this brother? Is it a hardcover binding?',
+        aiReply: 'Aree shudhu 350 taka! Chikon cloth binding, pristine condition.',
+        aiReplyTranslation: 'Ah, just 350 Rupees! Fine cloth binding in pristine condition.'
+      }
+    ]
   }
 ];
 
 // Interactive Arena Scenarios Dataset
-const ARENAS_DATA = [
+interface Arena {
+  id: string;
+  title: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  diffColor: string;
+  lang: string;
+  tag: string;
+  icon: string;
+  flavor: string;
+  description: string;
+  targetPhrases: string[];
+}
+
+const ARENAS_DATA: Arena[] = [
   {
     id: 'market-haggling',
     title: 'Mumbai Market Haggling',
@@ -105,7 +215,9 @@ const ARENAS_DATA = [
     lang: 'Hindi',
     tag: 'Hindi / English',
     icon: '🛒',
-    flavor: '"He\'s already decided you\'re overpaying. Prove him wrong with quick bargaining flair."'
+    flavor: '"He\'s already decided you\'re overpaying. Prove him wrong with quick bargaining flair."',
+    description: 'Walk into Colaba Causeway and negotiate handicraft prices against Ramesh Lal, a seasoned Mumbai shopkeeper.',
+    targetPhrases: ['Sasta karo bhaiya', 'Cash abhi deta hoon', 'Final rate batao']
   },
   {
     id: 'chai-stall',
@@ -115,7 +227,9 @@ const ARENAS_DATA = [
     lang: 'Gujarati',
     tag: 'Gujarati / Hindi',
     icon: '☕',
-    flavor: '"Order cutting ginger chai and ask about maska bun before the morning rush."'
+    flavor: '"Order cutting ginger chai and ask about maska bun before the morning rush."',
+    description: 'Interact with Karan Bhai in Lal Darwaja during peak morning tea hours.',
+    targetPhrases: ['Ek kadak chai', 'Maska bun tost karna', 'Cheeni kam']
   },
   {
     id: 'job-interview',
@@ -125,7 +239,9 @@ const ARENAS_DATA = [
     lang: 'English',
     tag: 'English',
     icon: '💼',
-    flavor: '"Explain React state management under high-pressure architectural grilling."'
+    flavor: '"Explain React state management under high-pressure architectural grilling."',
+    description: 'Pass a rigorous 30-minute system design interview with Shruti Hegde, Lead Architect.',
+    targetPhrases: ['Backpressure buffers', 'Exponential jitter backoff', 'Redis failover']
   },
   {
     id: 'train-reservation',
@@ -135,7 +251,9 @@ const ARENAS_DATA = [
     lang: 'Bengali',
     tag: 'Bengali',
     icon: '🚂',
-    flavor: '"Negotiate a last-minute sleeper berth ticket for the overnight Express."'
+    flavor: '"Negotiate a last-minute sleeper berth ticket for the overnight Express."',
+    description: 'Communicate with railway staff at Kolkata Howrah station counter under noise and time constraints.',
+    targetPhrases: ['Emergency quota', 'Sleeper berth available?', 'Kon platform?']
   },
   {
     id: 'wedding-gathering',
@@ -145,7 +263,9 @@ const ARENAS_DATA = [
     lang: 'Bengali',
     tag: 'Bengali / Hindi',
     icon: '🎉',
-    flavor: '"Navigate sweet aunties asking about your career and marriage plans."'
+    flavor: '"Navigate sweet aunties asking about your career and marriage plans."',
+    description: 'Master polite familial banter and cultural etiquette during a traditional Bengali marriage banquet.',
+    targetPhrases: ['Khub bhalo', 'Khabardar dada', 'Shubho bijoya']
   },
   {
     id: 'dhaba-order',
@@ -155,7 +275,33 @@ const ARENAS_DATA = [
     lang: 'Punjabi',
     tag: 'Punjabi',
     icon: '🍲',
-    flavor: '"Ask for extra white butter on your tandoori parathas with authentic flair."'
+    flavor: '"Ask for extra white butter on your tandoori parathas with authentic flair."',
+    description: 'Order authentic Punjabi cuisine at Gurpreet Singh\'s famous GT Road Dhaba.',
+    targetPhrases: ['White butter extra', 'Tandoori paratha kadak', 'Lassi bada glass']
+  }
+];
+
+// Interactive FAQ Dataset
+const FAQ_ITEMS = [
+  {
+    question: "How does Conversa differ from Duolingo or Babbel?",
+    answer: "Traditional apps focus on multiple-choice translation quizzes that train recognition. Conversa places you in real-world simulated audio conversations with AI personas that react spontaneously to what you say—building real vocal muscle memory, natural speed, and cultural confidence."
+  },
+  {
+    question: "Which Indian languages are currently supported?",
+    answer: "Conversa currently supports Hindi, Gujarati, Bengali, Punjabi, Tamil, and English (Tech/Corporate). We are continuously adding regional dialects like Bambaiya Hindi, Majha Punjabi, and Madras Tamil."
+  },
+  {
+    question: "Do I need a high-end microphone or special setup?",
+    answer: "No! Conversa runs smoothly inside any standard web browser using your device's built-in microphone. Our voice pipeline includes noise reduction and real-time speech-to-text processing under 800ms latency."
+  },
+  {
+    question: "What kind of feedback do I get after each session?",
+    answer: "After every interaction, you receive an immediate AI Debrief breakdown: Fluency score, Grammatical corrections, Native Phrase upgrades (idiomatic alternatives), and Cultural Etiquette tips customized to the scenario."
+  },
+  {
+    question: "Is Conversa free to try?",
+    answer: "Yes! You can jump straight into any immersion arena without creating an account. Full session tracking, progress history, and custom persona options are unlocked upon free sign-in."
   }
 ];
 
@@ -163,11 +309,22 @@ export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const [activeDemoIndex, setActiveDemoIndex] = useState(0);
   const [isPlayingHeroAudio, setIsPlayingHeroAudio] = useState(false);
+  const [selectedResponseIndex, setSelectedResponseIndex] = useState<number | null>(null);
+  const [showNativeScript, setShowNativeScript] = useState(false);
+  
+  // Arena Explorer filters & state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLangFilter, setSelectedLangFilter] = useState('All');
-  const [debriefTab, setDebriefTab] = useState<'score' | 'corrections' | 'audio'>('score');
+  const [selectedDiffFilter, setSelectedDiffFilter] = useState('All');
+  const [previewArena, setPreviewArena] = useState<Arena | null>(null);
 
-  // Scroll progress signature waveform bar
+  // Debrief preview state
+  const [debriefTab, setDebriefTab] = useState<'score' | 'corrections' | 'cultural' | 'audio'>('score');
+
+  // FAQ accordion active state
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  // Scroll progress signature bar
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -178,11 +335,12 @@ export const LandingPage: React.FC = () => {
   const activeDemo = HERO_DEMOS[activeDemoIndex];
 
   // Play browser Web Speech synthesis for audio preview
-  const playHeroAudio = () => {
+  const playHeroAudio = (customText?: string) => {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     setIsPlayingHeroAudio(true);
-    const utterance = new SpeechSynthesisUtterance(activeDemo.audioText);
+    const textToPlay = customText || (showNativeScript && activeDemo.scriptDialogue ? activeDemo.scriptDialogue : activeDemo.audioText);
+    const utterance = new SpeechSynthesisUtterance(textToPlay);
     utterance.rate = 0.92;
     utterance.onend = () => setIsPlayingHeroAudio(false);
     utterance.onerror = () => setIsPlayingHeroAudio(false);
@@ -192,10 +350,11 @@ export const LandingPage: React.FC = () => {
   // Filter Arenas based on user selection
   const filteredArenas = ARENAS_DATA.filter((arena) => {
     const matchesLang = selectedLangFilter === 'All' || arena.lang === selectedLangFilter || arena.tag.includes(selectedLangFilter);
+    const matchesDiff = selectedDiffFilter === 'All' || arena.difficulty === selectedDiffFilter;
     const matchesQuery = arena.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          arena.flavor.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          arena.lang.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesLang && matchesQuery;
+    return matchesLang && matchesDiff && matchesQuery;
   });
 
   return (
@@ -235,15 +394,24 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Quick Nav Links */}
+          <nav className="hidden lg:flex items-center gap-8 text-xs font-space-mono font-bold text-[#1B1A2E]/70">
+            <a href="#hero-demo" className="hover:text-[#A8562E] transition-colors">Live Demo</a>
+            <a href="#arenas" className="hover:text-[#A8562E] transition-colors">Arenas</a>
+            <a href="#personas" className="hover:text-[#A8562E] transition-colors">Personas</a>
+            <a href="#how-it-works" className="hover:text-[#A8562E] transition-colors">How It Works</a>
+            <a href="#debrief" className="hover:text-[#A8562E] transition-colors">AI Debrief</a>
+          </nav>
+
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 text-xs font-space-mono font-semibold">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 text-xs font-space-mono font-semibold">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Engine v2.4 Active</span>
+              <span>Voice AI v2.4 Active</span>
             </div>
 
             <button
               onClick={() => navigate('/login')}
-              className="text-xs font-semibold text-[#1B1A2E]/80 hover:text-[#1B1A2E] transition-colors cursor-pointer hidden sm:block px-3 py-2 rounded-xl hover:bg-[#1B1A2E]/5"
+              className="text-xs font-bold text-[#1B1A2E]/80 hover:text-[#1B1A2E] transition-colors cursor-pointer hidden sm:block px-3 py-2 rounded-xl hover:bg-[#1B1A2E]/5"
             >
               Sign In
             </button>
@@ -263,13 +431,13 @@ export const LandingPage: React.FC = () => {
         {/* ========================================================================= */}
         {/* SECTION 1: HERO — Dynamic Speech Simulation */}
         {/* ========================================================================= */}
-        <section className="max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-12 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
+        <section id="hero-demo" className="max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-12 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
           
           {/* Ambient Background Glowing Orbs */}
           <motion.div 
             animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
+              scale: [1, 1.25, 1],
+              opacity: [0.25, 0.45, 0.25]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute top-10 left-1/4 w-96 h-96 bg-gradient-to-tr from-[#E8A33D]/30 via-[#4A5D8A]/25 to-[#A8562E]/35 rounded-full blur-3xl -z-10 pointer-events-none"
@@ -324,7 +492,7 @@ export const LandingPage: React.FC = () => {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 href="#personas"
-                className="font-space-mono text-xs uppercase tracking-wider px-6 py-4 rounded-2xl border border-[#1B1A2E]/20 hover:border-[#1B1A2E]/40 text-[#1B1A2E] font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer bg-white/50 backdrop-blur-sm hover:bg-white/80"
+                className="font-space-mono text-xs uppercase tracking-wider px-6 py-4 rounded-2xl border border-[#1B1A2E]/20 hover:border-[#1B1A2E]/40 text-[#1B1A2E] font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer bg-white/60 backdrop-blur-sm hover:bg-white/90 shadow-xs"
               >
                 <Headphones className="w-4 h-4 text-[#A8562E]" />
                 <span>Explore Personas</span>
@@ -335,15 +503,15 @@ export const LandingPage: React.FC = () => {
             <motion.div variants={fadeUpVariant} className="grid grid-cols-3 gap-4 pt-6 border-t border-[#1B1A2E]/10 max-w-md">
               <div className="flex flex-col">
                 <span className="font-space-mono text-xl font-bold text-[#1B1A2E]">6+</span>
-                <span className="text-xs text-[#1B1A2E]/60 font-sans">Indian Languages</span>
+                <span className="text-xs text-[#1B1A2E]/60 font-sans font-medium">Indian Languages</span>
               </div>
               <div className="flex flex-col border-l border-[#1B1A2E]/10 pl-4">
                 <span className="font-space-mono text-xl font-bold text-[#A8562E]">&lt; 800ms</span>
-                <span className="text-xs text-[#1B1A2E]/60 font-sans">Voice AI Latency</span>
+                <span className="text-xs text-[#1B1A2E]/60 font-sans font-medium">Voice AI Latency</span>
               </div>
               <div className="flex flex-col border-l border-[#1B1A2E]/10 pl-4">
                 <span className="font-space-mono text-xl font-bold text-emerald-600">100%</span>
-                <span className="text-xs text-[#1B1A2E]/60 font-sans">Spontaneous Speech</span>
+                <span className="text-xs text-[#1B1A2E]/60 font-sans font-medium">Spontaneous Speech</span>
               </div>
             </motion.div>
           </motion.div>
@@ -359,17 +527,18 @@ export const LandingPage: React.FC = () => {
               className="glass-canvas rounded-3xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl border border-white/90 relative z-10"
             >
               {/* Persona Selector Tabs inside Widget */}
-              <div className="flex items-center justify-between border-b border-[#1B1A2E]/10 pb-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-[#1B1A2E]/10 pb-4">
                 <span className="font-space-mono text-[10px] uppercase tracking-wider text-[#1B1A2E]/50 font-bold">
                   Select Live Persona Preview:
                 </span>
                 
-                <div className="flex items-center gap-1 bg-[#1B1A2E]/5 p-1 rounded-xl">
+                <div className="flex items-center gap-1 bg-[#1B1A2E]/5 p-1 rounded-xl flex-wrap">
                   {HERO_DEMOS.map((demo, idx) => (
                     <button
                       key={demo.id}
                       onClick={() => {
                         setActiveDemoIndex(idx);
+                        setSelectedResponseIndex(null);
                         setIsPlayingHeroAudio(false);
                       }}
                       className={`px-3 py-1 rounded-lg text-xs font-space-mono font-bold transition-all cursor-pointer ${
@@ -392,7 +561,7 @@ export const LandingPage: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.25 }}
-                  className="flex items-center justify-between"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${activeDemo.avatarGradient} flex items-center justify-center text-white font-mono font-bold text-lg border-2 border-white shadow-md`}>
@@ -405,29 +574,46 @@ export const LandingPage: React.FC = () => {
                           {activeDemo.langTag}
                         </span>
                       </h4>
-                      <span className="font-space-mono text-xs text-[#A8562E] font-semibold">
+                      <span className="font-space-mono text-xs text-[#A8562E] font-semibold block mt-0.5">
                         {activeDemo.role} • 📍 {activeDemo.location}
                       </span>
                     </div>
                   </div>
 
-                  <button
-                    onClick={playHeroAudio}
-                    className="flex items-center gap-2 bg-[#E8A33D]/15 hover:bg-[#E8A33D]/30 px-3.5 py-2 rounded-xl border border-[#E8A33D]/40 transition-all cursor-pointer shadow-xs group"
-                    title="Listen to persona voice sample"
-                  >
-                    <Volume2 className={`w-4 h-4 text-[#A8562E] ${isPlayingHeroAudio ? 'animate-bounce' : 'group-hover:scale-110'}`} />
-                    <span className="font-space-mono text-xs font-bold text-[#A8562E]">
-                      {isPlayingHeroAudio ? 'Playing...' : 'Play Audio'}
-                    </span>
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {/* Toggle Native Script vs Transliteration */}
+                    {activeDemo.scriptDialogue && (
+                      <button
+                        onClick={() => setShowNativeScript(!showNativeScript)}
+                        className={`px-2.5 py-1.5 rounded-lg text-[11px] font-space-mono font-bold transition-all border cursor-pointer ${
+                          showNativeScript 
+                            ? 'bg-[#1B1A2E] text-[#E8A33D] border-[#1B1A2E]' 
+                            : 'bg-white/60 text-[#1B1A2E]/70 border-black/10 hover:bg-white'
+                        }`}
+                        title="Toggle Native Script / Hinglish"
+                      >
+                        {showNativeScript ? 'Script: Native' : 'Script: Hinglish'}
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => playHeroAudio()}
+                      className="flex items-center gap-2 bg-[#E8A33D]/15 hover:bg-[#E8A33D]/30 px-3 py-1.5 rounded-xl border border-[#E8A33D]/40 transition-all cursor-pointer shadow-xs group"
+                      title="Listen to persona voice sample"
+                    >
+                      <Volume2 className={`w-4 h-4 text-[#A8562E] ${isPlayingHeroAudio ? 'animate-bounce' : 'group-hover:scale-110'}`} />
+                      <span className="font-space-mono text-xs font-bold text-[#A8562E]">
+                        {isPlayingHeroAudio ? 'Playing...' : 'Play Audio'}
+                      </span>
+                    </button>
+                  </div>
                 </motion.div>
               </AnimatePresence>
 
               {/* Dynamic Speech Dialogue Stream */}
               <AnimatePresence mode="wait">
                 <motion.div 
-                  key={activeDemo.id + '-chat'}
+                  key={activeDemo.id + '-chat-' + (selectedResponseIndex ?? 'default')}
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
@@ -435,10 +621,10 @@ export const LandingPage: React.FC = () => {
                   className="flex flex-col gap-4"
                 >
                   {/* Persona Speech Bubble */}
-                  <div className="flex gap-3 max-w-[92%] self-start">
+                  <div className="flex gap-3 max-w-[95%] self-start">
                     <div className="glass-card rounded-2xl rounded-tl-xs p-4 flex flex-col gap-1.5 border border-white/80 shadow-sm">
                       <p className="font-sans text-sm font-semibold text-[#1B1A2E]">
-                        "{activeDemo.dialogue}"
+                        "{showNativeScript && activeDemo.scriptDialogue ? activeDemo.scriptDialogue : activeDemo.dialogue}"
                       </p>
                       <p className="font-sans text-xs italic text-[#A8562E] opacity-90 border-t border-black/5 pt-1.5">
                         "{activeDemo.translation}"
@@ -446,44 +632,105 @@ export const LandingPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* User Turn Live Waveform Bubble */}
-                  <div className="flex gap-3 max-w-[88%] self-end">
-                    <div className="bg-[#1B1A2E] text-[#F7F3ED] rounded-2xl rounded-tr-xs p-4 flex flex-col gap-2 shadow-xl border border-white/20">
-                      <div className="flex items-center justify-between text-[11px] font-space-mono text-[#E8A33D]">
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#E8A33D] animate-ping" />
-                          <span>Your Spoken Response</span>
-                        </span>
-                        <span>00:08 / 02:00</span>
+                  {/* If user clicked a simulated response option */}
+                  {selectedResponseIndex !== null && activeDemo.responses[selectedResponseIndex] && (
+                    <>
+                      {/* User Turn Spoken Response */}
+                      <div className="flex gap-3 max-w-[90%] self-end">
+                        <div className="bg-[#1B1A2E] text-[#F7F3ED] rounded-2xl rounded-tr-xs p-4 flex flex-col gap-2 shadow-xl border border-white/20">
+                          <div className="flex items-center justify-between text-[11px] font-space-mono text-[#E8A33D]">
+                            <span className="flex items-center gap-1.5 font-bold">
+                              <span className="w-2 h-2 rounded-full bg-[#E8A33D] animate-ping" />
+                              <span>Your Spoken Sentence</span>
+                            </span>
+                            <span>Simulated Mic</span>
+                          </div>
+
+                          <p className="font-sans text-sm font-medium text-white">
+                            "{activeDemo.responses[selectedResponseIndex].text}"
+                          </p>
+                          <p className="font-sans text-xs italic text-[#E8A33D]/80 border-t border-white/10 pt-1">
+                            "{activeDemo.responses[selectedResponseIndex].translation}"
+                          </p>
+
+                          {/* Animated Real-Time Waveform Bar */}
+                          <div className="flex items-center gap-1 h-5 pt-1">
+                            {Array.from({ length: 22 }).map((_, i) => (
+                              <motion.div
+                                key={i}
+                                className="w-1 bg-[#E8A33D] rounded-full"
+                                animate={{
+                                  height: [4, (i % 5 + 1) * 3.5 + Math.random() * 6, 4]
+                                }}
+                                transition={{
+                                  duration: 0.3 + (i % 3) * 0.1,
+                                  repeat: Infinity,
+                                  ease: 'easeInOut'
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
                       </div>
 
-                      <p className="font-sans text-sm font-medium text-white">
-                        "{activeDemo.userResponse}"
-                      </p>
-
-                      {/* Animated Real-Time Waveform Bar */}
-                      <div className="flex items-center gap-1 h-6 pt-1">
-                        {Array.from({ length: 24 }).map((_, i) => (
-                          <motion.div
-                            key={i}
-                            className="w-1 bg-[#E8A33D] rounded-full"
-                            animate={{
-                              height: isPlayingHeroAudio 
-                                ? [4, Math.random() * 22 + 4, 4] 
-                                : [4, (i % 5 + 1) * 3.5, 4]
-                            }}
-                            transition={{
-                              duration: 0.35 + (i % 3) * 0.1,
-                              repeat: Infinity,
-                              ease: 'easeInOut'
-                            }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                      {/* AI Persona Follow-up Reply */}
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex gap-3 max-w-[92%] self-start"
+                      >
+                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl rounded-tl-xs p-4 flex flex-col gap-1.5 shadow-xs">
+                          <div className="flex items-center gap-2 text-[10px] font-space-mono text-[#A8562E] font-bold">
+                            <Sparkles className="w-3 h-3 text-[#E8A33D]" />
+                            <span>{activeDemo.name}'s Adaptive AI Response</span>
+                          </div>
+                          <p className="font-sans text-sm font-bold text-[#1B1A2E]">
+                            "{activeDemo.responses[selectedResponseIndex].aiReply}"
+                          </p>
+                          <p className="font-sans text-xs italic text-[#A8562E]">
+                            "{activeDemo.responses[selectedResponseIndex].aiReplyTranslation}"
+                          </p>
+                        </div>
+                      </motion.div>
+                    </>
+                  )}
                 </motion.div>
               </AnimatePresence>
+
+              {/* Interactive Speech Action Prompts */}
+              <div className="pt-2 border-t border-[#1B1A2E]/10">
+                <span className="font-space-mono text-[10px] font-bold uppercase text-[#1B1A2E]/60 block mb-2">
+                  Test Spontaneous User Reply Options:
+                </span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {activeDemo.responses.map((resp, rIdx) => (
+                    <button
+                      key={rIdx}
+                      onClick={() => {
+                        setSelectedResponseIndex(rIdx);
+                        playHeroAudio(resp.aiReply);
+                      }}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-sans font-semibold transition-all cursor-pointer border ${
+                        selectedResponseIndex === rIdx
+                          ? 'bg-[#A8562E] text-white border-[#A8562E] shadow-sm'
+                          : 'bg-white/80 text-[#1B1A2E] border-black/10 hover:bg-white hover:border-[#A8562E]/50'
+                      }`}
+                    >
+                      🗣️ {resp.label}
+                    </button>
+                  ))}
+                  
+                  {selectedResponseIndex !== null && (
+                    <button
+                      onClick={() => setSelectedResponseIndex(null)}
+                      className="px-2.5 py-1.5 rounded-xl text-xs font-space-mono text-[#1B1A2E]/60 hover:text-[#1B1A2E] cursor-pointer"
+                    >
+                      Reset Turn
+                    </button>
+                  )}
+                </div>
+              </div>
 
               {/* Footer Audio Control Bar */}
               <div className="flex items-center justify-between pt-2 text-xs font-space-mono text-[#1B1A2E]/70 border-t border-[#1B1A2E]/10">
@@ -608,9 +855,94 @@ export const LandingPage: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 3: INTERACTIVE SCENARIO ARENAS EXPLORER */}
+        {/* SECTION 3: HOW CONVERSA WORKS — Step-by-Step Interactive Workflow */}
         {/* ========================================================================= */}
-        <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
+        <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-2xl mx-auto mb-16"
+          >
+            <span className="font-space-mono text-xs uppercase tracking-widest font-bold text-[#A8562E]">
+              3-Step Immersion Loop
+            </span>
+            <h2 className="font-serif-display text-3xl sm:text-4xl font-extrabold text-[#1B1A2E] mt-2">
+              From timid listener to confident speaker.
+            </h2>
+            <p className="font-sans text-sm text-[#1B1A2E]/70 mt-2">
+              A frictionless loop designed to build effortless spoken fluency.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                step: '01',
+                title: 'Choose Your Arena',
+                icon: Compass,
+                desc: 'Select from real Indian scenario arenas—haggling for silk in Mumbai, buying chai in Ahmedabad, or tackling a tech interview in Bengaluru.',
+                accent: 'from-[#A8562E] to-[#E8A33D]'
+              },
+              {
+                step: '02',
+                title: 'Talk to AI Personas',
+                icon: Mic,
+                desc: 'Speak naturally into your microphone. Our low-latency AI personas respond with authentic local accents, dialect flair, and realistic pushback.',
+                accent: 'from-[#E8A33D] to-amber-600'
+              },
+              {
+                step: '03',
+                title: 'Get AI Debrief',
+                icon: Award,
+                desc: 'Review immediate feedback after every conversation: phrase upgrades, grammatical fixes, fluency scorecards, and cultural etiquette tips.',
+                accent: 'from-[#4A5D8A] to-indigo-600'
+              }
+            ].map((st, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                whileHover={{ y: -6 }}
+                className="glass-card rounded-3xl p-8 flex flex-col justify-between border border-white/80 shadow-md relative overflow-hidden group"
+              >
+                <div className="flex flex-col gap-6">
+                  <div className="flex items-center justify-between">
+                    <span className="font-space-mono text-3xl font-extrabold text-[#1B1A2E]/20 group-hover:text-[#A8562E] transition-colors">
+                      {st.step}
+                    </span>
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${st.accent} text-white flex items-center justify-center shadow-md`}>
+                      <st.icon className="w-6 h-6" />
+                    </div>
+                  </div>
+
+                  <h3 className="font-serif-display font-bold text-xl text-[#1B1A2E]">
+                    {st.title}
+                  </h3>
+
+                  <p className="font-sans text-xs text-[#1B1A2E]/75 leading-relaxed">
+                    {st.desc}
+                  </p>
+                </div>
+
+                <div className="mt-8 pt-4 border-t border-[#1B1A2E]/10 flex items-center gap-2 text-xs font-space-mono text-[#A8562E] font-bold">
+                  <span>Step {st.step} active</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION 4: INTERACTIVE SCENARIO ARENAS EXPLORER */}
+        {/* ========================================================================= */}
+        <section id="arenas" className="max-w-7xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -629,33 +961,53 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Interactive Search Bar */}
-            <div className="relative min-w-[260px]">
+            <div className="relative min-w-[280px]">
               <Search className="w-4 h-4 text-[#1B1A2E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search scenarios..."
+                placeholder="Search scenarios or target phrases..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/70 border border-[#1B1A2E]/15 text-xs font-sans text-[#1B1A2E] placeholder-[#1B1A2E]/40 focus:outline-none focus:border-[#A8562E] transition-all shadow-2xs"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/80 border border-[#1B1A2E]/15 text-xs font-sans text-[#1B1A2E] placeholder-[#1B1A2E]/40 focus:outline-none focus:border-[#A8562E] transition-all shadow-xs"
               />
             </div>
           </motion.div>
 
-          {/* Language Filter Chips Bar */}
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            {['All', 'Hindi', 'Gujarati', 'Bengali', 'Punjabi', 'English'].map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setSelectedLangFilter(lang)}
-                className={`px-4 py-2 rounded-xl text-xs font-space-mono font-bold transition-all cursor-pointer border ${
-                  selectedLangFilter === lang
-                    ? 'bg-[#1B1A2E] text-white border-[#1B1A2E] shadow-sm'
-                    : 'bg-white/60 text-[#1B1A2E]/70 border-[#1B1A2E]/10 hover:bg-white hover:text-[#1B1A2E]'
-                }`}
-              >
-                {lang === 'All' ? '🌟 All Arenas' : lang}
-              </button>
-            ))}
+          {/* Filters Bar: Language & Difficulty */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            {/* Language Filter Chips */}
+            <div className="flex flex-wrap items-center gap-2">
+              {['All', 'Hindi', 'Gujarati', 'Bengali', 'Punjabi', 'English'].map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setSelectedLangFilter(lang)}
+                  className={`px-4 py-2 rounded-xl text-xs font-space-mono font-bold transition-all cursor-pointer border ${
+                    selectedLangFilter === lang
+                      ? 'bg-[#1B1A2E] text-white border-[#1B1A2E] shadow-sm'
+                      : 'bg-white/60 text-[#1B1A2E]/70 border-[#1B1A2E]/10 hover:bg-white hover:text-[#1B1A2E]'
+                  }`}
+                >
+                  {lang === 'All' ? '🌟 All Languages' : lang}
+                </button>
+              ))}
+            </div>
+
+            {/* Difficulty Pills */}
+            <div className="flex items-center gap-1.5 bg-[#1B1A2E]/5 p-1 rounded-xl w-fit">
+              {['All', 'Easy', 'Medium', 'Hard'].map((diff) => (
+                <button
+                  key={diff}
+                  onClick={() => setSelectedDiffFilter(diff)}
+                  className={`px-3 py-1 rounded-lg text-xs font-space-mono font-bold transition-all cursor-pointer ${
+                    selectedDiffFilter === diff
+                      ? 'bg-[#A8562E] text-white shadow-2xs'
+                      : 'text-[#1B1A2E]/60 hover:text-[#1B1A2E]'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Interactive Arena Grid */}
@@ -674,7 +1026,7 @@ export const LandingPage: React.FC = () => {
                   variants={fadeUpVariant}
                   whileHover={{ y: -6, scale: 1.015 }}
                   whileTap={{ scale: 0.985 }}
-                  onClick={() => navigate('/select')}
+                  onClick={() => setPreviewArena(arena)}
                   className="glass-card rounded-3xl p-6 flex flex-col justify-between gap-6 cursor-pointer border border-white/80 shadow-md group relative overflow-hidden"
                 >
                   <div className="flex flex-col gap-4">
@@ -702,7 +1054,7 @@ export const LandingPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center justify-between pt-3 border-t border-[#1B1A2E]/10 text-xs font-space-mono text-[#1B1A2E]/60 group-hover:text-[#1B1A2E]">
-                    <span>Enter Arena</span>
+                    <span className="font-bold text-[#A8562E]">Click to Preview Scenario</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform text-[#A8562E]" />
                   </div>
                 </motion.div>
@@ -710,10 +1062,87 @@ export const LandingPage: React.FC = () => {
             </AnimatePresence>
           </motion.div>
 
+          {/* Arena Quick Preview Modal Drawer */}
+          <AnimatePresence>
+            {previewArena && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-[#1B1A2E]/60 backdrop-blur-sm flex items-center justify-center p-4"
+                onClick={() => setPreviewArena(null)}
+              >
+                <motion.div 
+                  initial={{ scale: 0.9, y: 20 }}
+                  animate={{ scale: 1, y: 0 }}
+                  exit={{ scale: 0.9, y: 20 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="glass-canvas rounded-3xl p-6 sm:p-8 max-w-xl w-full flex flex-col gap-6 shadow-2xl border border-white/90 relative"
+                >
+                  <button 
+                    onClick={() => setPreviewArena(null)}
+                    className="absolute top-5 right-5 p-2 rounded-full bg-[#1B1A2E]/5 hover:bg-[#1B1A2E]/10 cursor-pointer transition-colors"
+                  >
+                    <X className="w-5 h-5 text-[#1B1A2E]" />
+                  </button>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-4xl">{previewArena.icon}</span>
+                    <div>
+                      <span className="font-space-mono text-xs font-bold text-[#A8562E] uppercase">
+                        {previewArena.tag} • {previewArena.difficulty}
+                      </span>
+                      <h3 className="font-serif-display text-2xl font-bold text-[#1B1A2E]">
+                        {previewArena.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <p className="font-sans text-sm text-[#1B1A2E]/80 leading-relaxed bg-white/60 p-4 rounded-2xl border border-black/5">
+                    {previewArena.description}
+                  </p>
+
+                  <div>
+                    <span className="font-space-mono text-xs font-bold text-[#1B1A2E]/70 uppercase block mb-2">
+                      Key Spoken Target Phrases:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {previewArena.targetPhrases.map((phrase, pIdx) => (
+                        <span key={pIdx} className="px-3 py-1.5 rounded-xl bg-[#E8A33D]/15 text-[#A8562E] text-xs font-space-mono font-bold border border-[#E8A33D]/30">
+                          "{phrase}"
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 pt-4 border-t border-[#1B1A2E]/10">
+                    <button
+                      onClick={() => {
+                        setPreviewArena(null);
+                        navigate('/select');
+                      }}
+                      className="flex-1 py-3.5 rounded-xl bg-[#1B1A2E] hover:bg-[#A8562E] text-white font-space-mono text-xs uppercase font-bold tracking-wider shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      <span>Start Arena Now</span>
+                      <ArrowRight className="w-4 h-4 text-[#E8A33D]" />
+                    </button>
+
+                    <button
+                      onClick={() => setPreviewArena(null)}
+                      className="px-5 py-3.5 rounded-xl border border-black/10 text-xs font-space-mono font-bold text-[#1B1A2E] hover:bg-black/5 cursor-pointer"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 4: PERSONA SHOWCASE */}
+        {/* SECTION 5: PERSONA SHOWCASE */}
         {/* ========================================================================= */}
         <section id="personas" className="max-w-7xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
           
@@ -840,9 +1269,9 @@ export const LandingPage: React.FC = () => {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 5: INTERACTIVE POST-SESSION DEBRIEF TEASER */}
+        {/* SECTION 6: INTERACTIVE POST-SESSION DEBRIEF TEASER */}
         {/* ========================================================================= */}
-        <section className="max-w-6xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
+        <section id="debrief" className="max-w-6xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -892,7 +1321,7 @@ export const LandingPage: React.FC = () => {
               </div>
 
               {/* Debrief Interactive Tabs */}
-              <div className="flex items-center gap-1 bg-[#1B1A2E]/5 p-1 rounded-xl">
+              <div className="flex items-center gap-1 bg-[#1B1A2E]/5 p-1 rounded-xl flex-wrap">
                 <button
                   onClick={() => setDebriefTab('score')}
                   className={`px-4 py-2 rounded-lg text-xs font-space-mono font-bold transition-all cursor-pointer ${
@@ -908,6 +1337,14 @@ export const LandingPage: React.FC = () => {
                   }`}
                 >
                   Phrase Corrections
+                </button>
+                <button
+                  onClick={() => setDebriefTab('cultural')}
+                  className={`px-4 py-2 rounded-lg text-xs font-space-mono font-bold transition-all cursor-pointer ${
+                    debriefTab === 'cultural' ? 'bg-[#1B1A2E] text-white shadow-xs' : 'text-[#1B1A2E]/70 hover:text-[#1B1A2E]'
+                  }`}
+                >
+                  Cultural Etiquette
                 </button>
               </div>
             </div>
@@ -982,12 +1419,99 @@ export const LandingPage: React.FC = () => {
               </motion.div>
             )}
 
+            {/* Tab 3: Cultural Etiquette */}
+            {debriefTab === 'cultural' && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass-card rounded-2xl p-6 border border-white/80 flex flex-col gap-4"
+              >
+                <div className="flex items-center gap-2 text-xs font-space-mono text-[#A8562E] font-bold">
+                  <Sparkles className="w-4 h-4 text-[#E8A33D]" />
+                  <span>Cultural Etiquette & Context Mastery</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans text-[#1B1A2E]/85">
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <strong className="text-[#A8562E] block mb-1">Respectful Honorifics:</strong>
+                    Always address local shopkeepers as 'Bhaiya' or 'Dada' depending on region. It establishes instant warm rapport.
+                  </div>
+                  <div className="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                    <strong className="text-[#4A5D8A] block mb-1">Conviction Signals:</strong>
+                    Using cash payment promises ('Cash abhi deta hoon') unlocks 15-20% deeper discounts than card inquiries.
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
           </motion.div>
 
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION 6: FOOTER / CTA */}
+        {/* SECTION 7: INTERACTIVE FAQ ACCORDION */}
+        {/* ========================================================================= */}
+        <section className="max-w-4xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-2xl mx-auto mb-14"
+          >
+            <span className="font-space-mono text-xs uppercase tracking-widest font-bold text-[#A8562E]">
+              Got Questions?
+            </span>
+            <h2 className="font-serif-display text-3xl sm:text-4xl font-extrabold text-[#1B1A2E] mt-2">
+              Frequently Asked Questions
+            </h2>
+          </motion.div>
+
+          <div className="flex flex-col gap-4">
+            {FAQ_ITEMS.map((faq, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  className="glass-card rounded-2xl border border-white/80 overflow-hidden shadow-2xs"
+                >
+                  <button
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer gap-4"
+                  >
+                    <span className="font-serif-display font-bold text-base text-[#1B1A2E]">
+                      {faq.question}
+                    </span>
+                    <ChevronDown className={`w-5 h-5 text-[#A8562E] transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="px-6 pb-6 text-xs sm:text-sm font-sans text-[#1B1A2E]/75 leading-relaxed border-t border-[#1B1A2E]/5 pt-3"
+                      >
+                        {faq.answer}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION 8: FOOTER / CTA */}
         {/* ========================================================================= */}
         <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 border-t border-[#1B1A2E]/10">
           
@@ -1006,7 +1530,7 @@ export const LandingPage: React.FC = () => {
                 Choose your target language & enter the arena.
               </h2>
               <p className="font-sans text-sm sm:text-base text-[#1B1A2E]/75 max-w-lg">
-                Click any language chip to load filtered immersion scenarios.
+                Click any language chip below to start real-time vocal roleplay.
               </p>
             </div>
 
