@@ -595,25 +595,30 @@ export const ScenarioSelectPage: React.FC = () => {
                     <motion.div
                       key={sc.id}
                       onClick={() => handleCardClick(sc)}
-                      whileHover={{ y: -4, scale: 1.015 }}
-                      whileTap={{ scale: 0.985 }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                      className={`rounded-2xl p-4 cursor-pointer flex flex-col justify-between gap-4 glass-card group ${
+                      whileHover={{ y: -6, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                      className={`relative rounded-2xl p-5 cursor-pointer flex flex-col justify-between gap-4 glass-card group transition-all duration-300 ${
                         isSelected
-                          ? 'ring-2 ring-blue-500/50 !border-blue-500 !bg-white/90'
-                          : ''
+                          ? 'ring-2 ring-amber-500/80 !border-amber-500 !bg-white/95 shadow-xl shadow-amber-500/10'
+                          : 'hover:shadow-xl hover:shadow-orange-500/10'
                       }`}
                     >
+                      {/* Ambient card corner accent glow */}
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-400/10 via-orange-500/5 to-transparent rounded-tr-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
                       {/* Top Row: Icon + Title + Star + Difficulty Tag */}
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start justify-between gap-2 relative z-10">
                         <div className="flex items-start gap-3">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border shrink-0 transition-colors ${
-                            isSelected ? 'bg-blue-50 border-blue-100' : 'bg-slate-50 border-slate-200/80 group-hover:bg-blue-50/50'
+                          <div className={`w-11 h-11 rounded-xl flex items-center justify-center border shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                            isSelected 
+                              ? 'bg-amber-50 border-amber-200 text-amber-600 shadow-xs' 
+                              : 'bg-slate-50 border-slate-200/80 group-hover:bg-amber-50/70 group-hover:border-amber-200'
                           }`}>
                             {getScenarioIcon(sc.id, isSelected)}
                           </div>
                           <div>
-                            <h3 className="font-brand font-bold text-base text-slate-900 tracking-tight leading-snug m-0 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                            <h3 className="font-brand font-bold text-base text-slate-900 tracking-tight leading-snug m-0 line-clamp-1 group-hover:text-amber-700 transition-colors">
                               {sc.name}
                             </h3>
                             <span className="text-xs text-slate-500 font-normal block mt-1 line-clamp-2 leading-relaxed">
@@ -626,8 +631,8 @@ export const ScenarioSelectPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={(e) => toggleFavorite(sc.id, e)}
-                            className={`p-1 rounded-lg transition-colors cursor-pointer ${
-                              isFav ? 'text-amber-500 hover:text-amber-600' : 'text-slate-300 hover:text-slate-500'
+                            className={`p-1.5 rounded-xl transition-all cursor-pointer hover:scale-110 ${
+                              isFav ? 'text-amber-500 hover:text-amber-600 bg-amber-50' : 'text-slate-300 hover:text-amber-500 hover:bg-slate-100'
                             }`}
                             title={isFav ? 'Remove from favorites' : 'Add to favorites'}
                           >
@@ -637,15 +642,15 @@ export const ScenarioSelectPage: React.FC = () => {
                       </div>
 
                       {/* Bottom Footer Info */}
-                      <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-500 mt-auto">
+                      <div className="flex items-center justify-between pt-3 border-t border-slate-100/90 text-xs text-slate-500 mt-auto relative z-10">
                         <div className="flex items-center gap-1.5">
-                          <UserCheck className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                          <span className="font-semibold text-slate-700 truncate max-w-[130px]">{sc.persona?.name}</span>
+                          <UserCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span className="font-semibold text-slate-800 truncate max-w-[130px]">{sc.persona?.name}</span>
                           <span className="text-slate-400 font-normal text-[11px]">({sc.persona?.role})</span>
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="font-mono text-[10px] text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100/80">
+                          <span className="font-mono text-[10px] text-amber-700 font-bold bg-amber-50/80 px-2 py-0.5 rounded-md border border-amber-200/80 shadow-2xs">
                             {sc.targetLanguage ? sc.targetLanguage[0] : ''}
                           </span>
                           {renderDifficultyTag(sc.difficulty)}
